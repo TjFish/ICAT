@@ -1,0 +1,32 @@
+server:
+  port: 1234
+
+spring:
+  datasource:
+    username: root
+    password: mysql@1998
+    url: jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    timeout: 10000ms
+
+mybatis:
+  type-aliases-package: learning.pojo
+  mapper-locations: classpath*:mapper/*Mapper.xml
+
+
