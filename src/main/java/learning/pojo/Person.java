@@ -1,7 +1,11 @@
 package learning.pojo;
 
+import io.lettuce.core.dynamic.annotation.CommandNaming;
 import lombok.Data;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
@@ -11,9 +15,14 @@ import java.text.MessageFormat;
  */
 
 @Data
+@Entity
+@DynamicUpdate
 public class Person implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
     private Integer age;
     private String gender;
@@ -21,7 +30,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        String info = "ID: {0};\tNAME: {1};\tAGE: {2};\tGENDER: {3}\t;POSITION:{4};";
+        String info = "ID: {0};\tNAME: {1};\tAGE: {2};\tGENDER: {3};\tPOSITION: {4};";
         return MessageFormat.format(info, id, name, age, gender, position);
     }
 }

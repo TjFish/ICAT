@@ -8,7 +8,7 @@
 - [x] Maven
 - [x] Mybatis
 - [x] Redis
-- [ ] JPA
+- [x] JPA
 - [ ] Shiro
 - [x] Mysql
 

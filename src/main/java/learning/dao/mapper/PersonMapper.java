@@ -1,11 +1,9 @@
-package learning.mapper;
+package learning.dao.mapper;
 
 import learning.pojo.Person;
-import org.apache.ibatis.annotations.Mapper;
+
 import org.springframework.stereotype.Repository;
 
-
-import javax.annotation.Resource;
 import java.util.List;
 
 /**

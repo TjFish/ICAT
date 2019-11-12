@@ -24,9 +24,11 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 10000ms
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 mybatis:
   type-aliases-package: learning.pojo
   mapper-locations: classpath*:mapper/*Mapper.xml
-
-

@@ -4,6 +4,7 @@ import learning.pojo.Person;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Shidan Cheng
@@ -11,14 +12,40 @@ import java.util.List;
  */
 @Service
 public interface PersonService {
-    public int addPerson(Person person);
+    /**
+     *  __  __         _             _    _
+     * |  \/  | _   _ | |__    __ _ | |_ (_) ___
+     * | |\/| || | | || '_ \  / _` || __|| |/ __|
+     * | |  | || |_| || |_) || (_| || |_ | |\__ \
+     * |_|  |_| \__, ||_.__/  \__,_| \__||_||___/
+     *          |___/
+     */
+    public int addPersonViaMybatis(Person person);
 
-    public int deletePersonById(Integer id);
+    public int deletePersonByIdViaMyBatis(Integer id);
 
-    public int updatePerson(Person person);
+    public int updatePersonViaMyBatis(Person person);
 
-    public Person queryPersonById(Integer id);
+    public Person queryPersonByIdViaMyBatis(Integer id);
 
-    public List<Person> queryAllPersons();
+    public List<Person> queryAllPersonsViaMyBatis();
+
+
+    /**
+     *      _  ____    _
+     *     | ||  _ \  / \
+     *  _  | || |_) |/ _ \
+     * | |_| ||  __// ___ \
+     *  \___/ |_|  /_/   \_\
+     */
+    public int addPersonViaJpa(Person person);
+
+    public int deletePersonByIdViaJpa(Integer id);
+
+    public int updatePersonViaJpa(Person person);
+
+    public Optional<Person> queryPersonByIdViaJpa(Integer id);
+
+    public List<Person> queryAllPersonsViaJpa();
 
 }
