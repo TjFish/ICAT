@@ -1,7 +1,11 @@
-# Springboot-Framework-Practice
+# ICAT
+![](https://img.shields.io/github/last-commit/Tjfish/ICAT)
 
+前台预览地址：<http://47.102.116.29:2020/>
 
-![](https://img.shields.io/github/last-commit/YagoToasa/Springboot-Framework-Practice)
+后台管理预览地址：<http://47.102.116.29:4040/>
+
+原 Api swagger文档：<http://47.102.116.29/index.html> （参照这个实现api，完成后端功能）
 
 ## 进度
 
@@ -24,7 +28,7 @@
 └── src
     ├── main
     │   ├── java
-    │   │   └── learning
+    │   │   └── backend
     │   │       ├── LearningApplication.java        启动类
     │   │       ├── config                          [Config]
     |   |       │                                   : 配置类库
@@ -54,6 +58,6 @@
     │       └── templates                           : 视图模版目录 : jsp, thymeleaf
     └── test 
         └── java
-            └── learning                            : 单元测试目录
+            └── backend                            : 单元测试目录
 ```
 
