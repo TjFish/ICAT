@@ -1,5 +1,11 @@
 # ICAT
-![](https://img.shields.io/github/last-commit/YagoToasa/Springboot-Framework-Practice)
+![](https://img.shields.io/github/last-commit/Tjfish/ICAT)
+
+前台预览地址：<http://47.102.116.29:2020/>
+
+后台管理预览地址：<http://47.102.116.29:4040/>
+
+原 Api swagger文档：<http://47.102.116.29/index.html> （参照这个实现api，完成后端功能）
 
 ## 进度
 
