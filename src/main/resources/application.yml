@@ -1,12 +1,13 @@
 server:
   port: 1234
 
+
 spring:
   datasource:
     username: root
-    password: mysql@1998
-    url: jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=UTF-8
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: root
+    url: jdbc:mysql://122.152.202.227:3306/catManagement?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
   http:
     encoding:
       force: true
@@ -14,7 +15,7 @@ spring:
       enabled: true
   redis:
     database: 0
-    host: 127.0.0.1
+    host: 122.152.202.227
     port: 6379
     password:
     jedis:
@@ -26,9 +27,12 @@ spring:
     timeout: 10000ms
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      # 映射规则，有两种规则，physical：使用驼峰命名,implict: 使用下划线命名
     show-sql: true
 
 mybatis:
-  type-aliases-package: learning.pojo
+  type-aliases-package: backend.pojo
   mapper-locations: classpath*:mapper/*Mapper.xml

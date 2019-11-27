@@ -22,7 +22,7 @@
 └── src
     ├── main
     │   ├── java
-    │   │   └── learning
+    │   │   └── backend
     │   │       ├── LearningApplication.java        启动类
     │   │       ├── config                          [Config]
     |   |       │                                   : 配置类库
@@ -52,6 +52,6 @@
     │       └── templates                           : 视图模版目录 : jsp, thymeleaf
     └── test 
         └── java
-            └── learning                            : 单元测试目录
+            └── backend                            : 单元测试目录
 ```
 
