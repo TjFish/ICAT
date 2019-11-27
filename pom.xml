@@ -8,11 +8,11 @@
         <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>SpringBootFrameWorkPractice</groupId>
-    <artifactId>learning</artifactId>
+    <groupId>ICAT</groupId>
+    <artifactId>ICAT</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>learning</name>
-    <description>Demo project for Spring Boot Framework with mybatis etc.</description>
+    <name>ICAT-Backend</name>
+    <description>ICAT Backend with Spring Boot Framework, mybatis etc.</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -38,6 +38,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.23</version>
             <scope>runtime</scope>
         </dependency>
         <!-- lombok 插件 -->
@@ -82,6 +83,17 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+        <!-- swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.7.0</version>
         </dependency>
     </dependencies>
 
