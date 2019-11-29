@@ -1,5 +1,7 @@
 package backend.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -15,6 +17,9 @@ public class DiseaseRecord {
     private Timestamp startTime;
     private Timestamp endTime;
     private String remark;
+    private String catId;
+    //@JsonIgnore
+    //private Cat cat;
 
     @Id
     @Column(name = "recordID")
@@ -24,6 +29,16 @@ public class DiseaseRecord {
 
     public void setRecordId(String recordId) {
         this.recordId = recordId;
+    }
+
+    @Basic
+    @Column(name = "catID")
+    public String getCatId() {
+        return catId;
+    }
+
+    public void setCatId(String catId) {
+        this.catId = catId;
     }
 
     @Basic
@@ -65,6 +80,16 @@ public class DiseaseRecord {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "catID")
+//    public Cat getCat() {
+//        return cat;
+//    }
+//
+//    public void setCat(Cat cat) {
+//        this.cat = cat;
+//    }
 
     @Override
     public boolean equals(Object o) {

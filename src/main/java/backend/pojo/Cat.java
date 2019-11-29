@@ -1,6 +1,9 @@
 package backend.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author: OY
@@ -20,6 +23,23 @@ public class Cat {
     private String locate;
     private String characteristics;
     private String appearance;
+
+//    @JsonIgnore
+//    List<DiseaseRecord> diseaseRecords;
+//
+//    @OneToMany(targetEntity=DiseaseRecord.class, mappedBy="cat", fetch=FetchType.LAZY)
+//    public List<DiseaseRecord> getDiseaseRecords() {
+//        return diseaseRecords;
+//    }
+//
+//    public void setDiseaseRecords(List<DiseaseRecord> diseaseRecords) {
+//        this.diseaseRecords = diseaseRecords;
+//    }
+
+
+
+
+
 
     @Id
     @Column(name = "catID")

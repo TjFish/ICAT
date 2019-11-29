@@ -16,9 +16,11 @@ public interface ClubMemberService {
 
     public void deleteClubMemberById(String id);
 
-    public int updateClubMember(ClubMember clubMember);
+    public void updateClubMember(ClubMember clubMember);
 
     public Optional<ClubMember> queryClubMemberById(String id);
 
     public List<ClubMember> queryAllClubMember();
+
+    boolean exsitsById(String id);
 }
