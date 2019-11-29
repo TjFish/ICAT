@@ -2,6 +2,7 @@ package backend.controller;
 
 import backend.pojo.ClubMember;
 import backend.service.ClubMemberService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class ClubMemberController {
         return clubMemberService.queryClubMemberById(Id);
     }
     @PostMapping(value = "/")
-    public void addClubMember(ClubMember clubMember)
+    public void addClubMember(@RequestBody ClubMember clubMember)
     {
         clubMemberService.addClubMember(clubMember);
     }

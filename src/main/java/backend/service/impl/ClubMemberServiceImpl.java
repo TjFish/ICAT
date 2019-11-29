@@ -4,6 +4,7 @@ import backend.dao.repository.ClubMemberRepository;
 import backend.pojo.ClubMember;
 import backend.service.ClubMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,8 +18,9 @@ import java.util.Optional;
  * @author: OY
  * @date: 17:06 2019/11/27
  */
-@Service
 @Transactional
+@Service
+@CacheConfig(cacheNames = "ClubMember")
 public class ClubMemberServiceImpl implements ClubMemberService {
     @Autowired
     private ClubMemberRepository clubMemberRepository;
@@ -40,9 +42,10 @@ public class ClubMemberServiceImpl implements ClubMemberService {
 
 
     @Override
-    @CachePut(cacheNames = "ClubMember",key = "#clubMember.studentId")
+    @CachePut(key = "#clubMember.studentId")
     public void addClubMember(ClubMember clubMember) {
-         clubMemberRepository.saveAndFlush(clubMember);
+        //这里要注意，如果数据库中已有相同主键的实体，jpa会更新它，而不是抛出异常
+        clubMemberRepository.save(clubMember);
     }
 
     @Override
@@ -52,12 +55,12 @@ public class ClubMemberServiceImpl implements ClubMemberService {
     }
 
     @Override
-    @CachePut(cacheNames = "ClubMember",key = "#clubMember.studentId")
-    public int updateClubMember(ClubMember clubMember) {
-        return 0;
+    @CachePut(key = "#clubMember.studentId")
+    public void updateClubMember(ClubMember clubMember) {
+        clubMemberRepository.saveAndFlush(clubMember);
     }
 
-    @Cacheable(cacheNames = "ClubMember",key = "#id") //增添缓存,缓存的键名为ClubMember+ key（id）
+    @Cacheable(key = "#id") //增添缓存,缓存的键名为ClubMember+ key（id）
     @Override
     public Optional<ClubMember> queryClubMemberById(String id) {
         return clubMemberRepository.findById(id);
@@ -67,5 +70,10 @@ public class ClubMemberServiceImpl implements ClubMemberService {
     @Override
     public List<ClubMember> queryAllClubMember() {
         return clubMemberRepository.findAll();
+    }
+
+    @Override
+    public boolean exsitsById(String id) {
+        return clubMemberRepository.existsById(id);
     }
 }
