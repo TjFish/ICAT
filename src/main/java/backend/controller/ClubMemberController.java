@@ -13,7 +13,7 @@ import java.util.Optional;
  * @date: 20:36 2019/11/27
  */
 @RestController
-@RequestMapping(value = "/ClubMember", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/api/ClubMembers", produces = "application/json;charset=utf-8")
 public class ClubMemberController {
     @Autowired
     ClubMemberService clubMemberService;
@@ -22,7 +22,6 @@ public class ClubMemberController {
     public List<ClubMember> getAllClubMember() {
         return clubMemberService.queryAllClubMember();
     }
-
     @GetMapping(value = "/{studentId}")
     public Optional<ClubMember> getClubMemberById(@PathVariable("studentId") String Id) {
         return clubMemberService.queryClubMemberById(Id);
@@ -33,13 +32,15 @@ public class ClubMemberController {
         clubMemberService.addClubMember(clubMember);
     }
 
+
     @DeleteMapping(value = "/{studentId}")
     public void deleteClubMember(@PathVariable("studentId") String id) {
         clubMemberService.deleteClubMemberById(id);
     }
 
     @PutMapping(value = "/")
-    public void putClubMember(ClubMember clubMember) {
+    public void putClubMember(@RequestBody ClubMember clubMember)
+    {
         clubMemberService.updateClubMember(clubMember);
     }
 }

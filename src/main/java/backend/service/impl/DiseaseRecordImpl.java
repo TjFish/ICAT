@@ -4,6 +4,7 @@ import backend.dao.repository.DiseaseRecordRepository;
 import backend.pojo.DiseaseRecord;
 import backend.service.DiseaseRecordService;
 import backend.service.SequenceService;
+import common.service.Impl.CURDServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,36 +18,6 @@ import java.util.Optional;
  */
 
 @Service
-public class DiseaseRecordImpl implements DiseaseRecordService {
-    @Autowired
-    DiseaseRecordRepository diseaseRecordRepository;
-    @Autowired
-    SequenceService sequenceService;
-    @Transactional
-    @Override
-    public void addDiseaseRecord(DiseaseRecord one) {
-        one.setRecordId(sequenceService.getNextDiseaseRecordId());
-        diseaseRecordRepository.saveAndFlush(one);
-    }
-    @Transactional
-    @Override
-    public void deleteDiseaseRecordById(String id) {
-        diseaseRecordRepository.deleteById(id);
-    }
+public class DiseaseRecordImpl extends CURDServiceImpl<DiseaseRecord,String,DiseaseRecordRepository> implements DiseaseRecordService  {
 
-    @Transactional
-    @Override
-    public void updateDiseaseRecord(DiseaseRecord one) {
-        diseaseRecordRepository.saveAndFlush(one);
-    }
-
-    @Override
-    public Optional<DiseaseRecord> queryDiseaseRecordById(String id) {
-        return diseaseRecordRepository.findById(id);
-    }
-
-    @Override
-    public List<DiseaseRecord> queryAllDiseaseRecord() {
-        return diseaseRecordRepository.findAll();
-    }
 }
