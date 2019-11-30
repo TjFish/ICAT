@@ -14,7 +14,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableTransactionManagement
 public class LearningApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(LearningApplication.class, args);
     }

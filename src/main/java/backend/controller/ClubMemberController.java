@@ -2,7 +2,6 @@ package backend.controller;
 
 import backend.pojo.ClubMember;
 import backend.service.ClubMemberService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,24 +17,27 @@ import java.util.Optional;
 public class ClubMemberController {
     @Autowired
     ClubMemberService clubMemberService;
+
     @GetMapping(value = "/")
-    public List<ClubMember> getAllClubMember(){
+    public List<ClubMember> getAllClubMember() {
         return clubMemberService.queryAllClubMember();
     }
-    @GetMapping(value = "/{id}")
-    public Optional<ClubMember> getClubMemberById(@PathVariable("studentId") String Id){
+    @GetMapping(value = "/{studentId}")
+    public Optional<ClubMember> getClubMemberById(@PathVariable("studentId") String Id) {
         return clubMemberService.queryClubMemberById(Id);
     }
+
     @PostMapping(value = "/")
-    public void addClubMember(@RequestBody ClubMember clubMember)
-    {
+    public void addClubMember(@RequestBody ClubMember clubMember) {
         clubMemberService.addClubMember(clubMember);
     }
-    @DeleteMapping(value = "/{id}")
-    public void deleteClubMember(@PathVariable("studentId") String Id)
-    {
-        clubMemberService.deleteClubMemberById(Id);
+
+
+    @DeleteMapping(value = "/{studentId}")
+    public void deleteClubMember(@PathVariable("studentId") String id) {
+        clubMemberService.deleteClubMemberById(id);
     }
+
     @PutMapping(value = "/")
     public void putClubMember(@RequestBody ClubMember clubMember)
     {
