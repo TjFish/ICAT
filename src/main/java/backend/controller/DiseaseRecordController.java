@@ -2,6 +2,8 @@ package backend.controller;
 
 import backend.pojo.DiseaseRecord;
 import backend.service.DiseaseRecordService;
+import backend.service.SequenceService;
+import common.controller.CURDController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,33 +15,14 @@ import java.util.Optional;
  * @date: 18:57 2019/11/28
  */
 @RestController
-@RequestMapping(value = "/DiseaseRecord", produces = "application/json;charset=utf-8")
-public class DiseaseRecordController {
+@RequestMapping(value = "/api/DiseaseRecords", produces = "application/json;charset=utf-8")
+public class DiseaseRecordController extends CURDController<DiseaseRecord,String,DiseaseRecordService> {
     @Autowired
-    DiseaseRecordService diseaseRecordService;
+    SequenceService sequenceService;
 
-    @GetMapping(value = "/")
-    public List<DiseaseRecord> getAllDiseaseRecord() {
-        return diseaseRecordService.queryAllDiseaseRecord();
-    }
-
-    @GetMapping(value = "/{Id}")
-    public Optional<DiseaseRecord> getDiseaseRecordById(@PathVariable("Id") String Id) {
-        return diseaseRecordService.queryDiseaseRecordById(Id);
-    }
-
-    @PostMapping(value = "/")
-    public void addDiseaseRecord(@RequestBody DiseaseRecord diseaseRecord) {
-        diseaseRecordService.addDiseaseRecord(diseaseRecord);
-    }
-
-    @DeleteMapping(value = "/{Id}")
-    public void deleteDiseaseRecord(@PathVariable("Id") String Id) {
-        diseaseRecordService.deleteDiseaseRecordById(Id);
-    }
-
-    @PutMapping(value = "/")
-    public void putDiseaseRecord(DiseaseRecord diseaseRecord) {
-        diseaseRecordService.updateDiseaseRecord(diseaseRecord);
+    @Override
+    public void add(@RequestBody DiseaseRecord diseaseRecord) {
+        diseaseRecord.setRecordId(sequenceService.getNextDiseaseRecordId());
+        super.add(diseaseRecord);
     }
 }

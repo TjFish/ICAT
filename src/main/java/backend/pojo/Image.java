@@ -65,4 +65,12 @@ public class Image {
         result = 31 * result + (photoTime != null ? photoTime.hashCode() : 0);
         return result;
     }
+
+
+    public String formattedOutput() {
+        return "[imageId]: " + imageId
+                + "\t | \t[imageUrl]: " + imageUrl
+                + "\t | \t[photoTime]: " + photoTime
+                + "\n";
+    }
 }
