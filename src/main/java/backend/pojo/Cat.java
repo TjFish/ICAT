@@ -14,8 +14,10 @@ import java.util.List;
 public class Cat {
     private String catId;
     private String catName;
+    private String catColor;
     private String catGender;
     private Integer age;
+    private String headPortrait;
     private Boolean isSterilization;
     private Boolean isAdopt;
     private Boolean isLost;
@@ -23,6 +25,9 @@ public class Cat {
     private String locate;
     private String characteristics;
     private String appearance;
+
+    public Cat() {
+    }
 
 //    @JsonIgnore
 //    List<DiseaseRecord> diseaseRecords;
@@ -37,10 +42,6 @@ public class Cat {
 //    }
 
 
-
-
-
-
     @Id
     @Column(name = "catID")
     public String getCatId() {
@@ -51,6 +52,7 @@ public class Cat {
         this.catId = catId;
     }
 
+
     @Basic
     @Column(name = "catName")
     public String getCatName() {
@@ -59,6 +61,16 @@ public class Cat {
 
     public void setCatName(String catName) {
         this.catName = catName;
+    }
+
+    @Basic
+    @Column(name = "catColor")
+    public String getCatColor(){
+        return catColor;
+    }
+
+    public void setCatColor(String catColor){
+        this.catColor = catColor;
     }
 
     @Basic
@@ -79,6 +91,16 @@ public class Cat {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Basic
+    @Column(name = "headPortrait")
+    public String getHeadPortrait(){
+        return headPortrait;
+    }
+
+    public void setHeadPortrait(String headPortrait){
+        this.headPortrait = headPortrait;
     }
 
     @Basic
@@ -158,7 +180,7 @@ public class Cat {
 
         Cat cat = (Cat) o;
 
-        if (isAdopt.equals(cat.isAdopt) ) return false;
+        if (isAdopt.equals(cat.isAdopt)) return false;
         if (isLost.equals(cat.isLost)) return false;
         if (catId != null ? !catId.equals(cat.catId) : cat.catId != null) return false;
         if (catName != null ? !catName.equals(cat.catName) : cat.catName != null) return false;
@@ -189,5 +211,26 @@ public class Cat {
         result = 31 * result + (characteristics != null ? characteristics.hashCode() : 0);
         result = 31 * result + (appearance != null ? appearance.hashCode() : 0);
         return result;
+    }
+
+
+    public String formattedOutput() {
+
+        String string = "[catId]: " + catId
+                + "\t | \t[catName]: " + catName
+                + "\t | \t[catColor]: " + catColor
+                + "\t | \t[catGender]: " + catGender
+                + "\t | \t[headPortrait]: " + headPortrait
+                + "\t | \t[age]: " + age
+                + "\t | \t[isSterilization]: " + isSterilization
+                + "\t | \t[isAdopt]: " + isAdopt
+                + "\t | \t[isLost]: " + isLost
+                + "\t | \t[hint]: " + hint
+                + "\t | \t[locate]: " + locate
+                + "\t | \t[characteristics]: " + characteristics
+                + "\t | \t[appearance]: " + appearance
+                + "\n";
+        return string;
+
     }
 }
