@@ -22,5 +22,5 @@ public interface ClubMemberService {
 
     public List<ClubMember> queryAllClubMember();
 
-    boolean exsitsById(String id);
+    boolean existsById(String id);
 }

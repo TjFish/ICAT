@@ -73,7 +73,7 @@ public class ClubMemberServiceImpl implements ClubMemberService {
     }
 
     @Override
-    public boolean exsitsById(String id) {
+    public boolean existsById(String id) {
         return clubMemberRepository.existsById(id);
     }
 }

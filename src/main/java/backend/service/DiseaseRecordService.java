@@ -1,6 +1,7 @@
 package backend.service;
 
 import backend.pojo.DiseaseRecord;
+import common.service.CURDService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +12,6 @@ import java.util.Optional;
  * @date: 18:24 2019/11/28
  */
 @Service
-public interface DiseaseRecordService {
-    public void addDiseaseRecord(DiseaseRecord one);
+public interface DiseaseRecordService extends CURDService<DiseaseRecord,String> {
 
-    public void deleteDiseaseRecordById(String id);
-
-    public void updateDiseaseRecord(DiseaseRecord one);
-
-    public Optional<DiseaseRecord> queryDiseaseRecordById(String id);
-
-    public List<DiseaseRecord> queryAllDiseaseRecord();
 }
