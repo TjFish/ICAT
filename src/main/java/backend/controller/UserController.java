@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/Users")
+@RequestMapping(value = "/Users", produces = "application/json;charset=utf-8")
 public class UserController {
 
     @Autowired
@@ -19,9 +20,29 @@ public class UserController {
         return userService.getAllUser();
     }
 
+    @GetMapping(value = "/{userId}")
+    public Optional<User> getUserById(@PathVariable("userId") String id) {
+        return userService.getUserById(id);
+    }
+
+    @GetMapping(value = "/VerifyCode")
+    public String getVerifyCode() {
+        return null;
+    }
+
+    @PostMapping(value = "/ChangePassword")
+    public void changePassword() {
+
+    }
+
     @PostMapping(value = "/")
     public void addUser(@RequestBody User user) {
         userService.addUser(user);
+    }
+
+    @PostMapping(value = "/Login")
+    public void login() {
+
     }
 
     @DeleteMapping(value = "/{userId}")
