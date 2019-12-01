@@ -26,28 +26,32 @@ public class UserController {
     }
 
     @GetMapping(value = "/VerifyCode")
-    public String getVerifyCode() {
-        return null;
+    public Optional<User> getVerifyCode(@RequestParam String id, @RequestParam Integer option) {
+        return userService.getUserById(id);
     }
 
     @PostMapping(value = "/ChangePassword")
-    public void changePassword() {
-
+    public Optional<User> changePassword(@RequestParam String account, @RequestParam String password) {
+        userService.changePassword(account, password);
+        return userService.getUserById(account);
     }
 
     @PostMapping(value = "/")
-    public void addUser(@RequestBody User user) {
+    public Optional<User> addUser(@RequestBody User user) {
         userService.addUser(user);
+        return userService.getUserById(user.getUserAccount());
     }
 
     @PostMapping(value = "/Login")
-    public void login() {
-
+    public void login(@RequestParam String account, @RequestParam String password) {
+        userService.login(account, password);
     }
 
     @DeleteMapping(value = "/{userId}")
-    public void deleteUser(@PathVariable("userId") String id) {
+    public Optional<User> deleteUser(@PathVariable("userId") String id) {
+        Optional<User> user = userService.getUserById(id);
         userService.deleteUserById(id);
+        return user;
     }
 
     @PutMapping(value = "/")

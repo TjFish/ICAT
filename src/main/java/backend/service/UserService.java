@@ -32,6 +32,21 @@ public interface UserService {
     public void updateUser(User user);
 
     /**
+     * change user's password
+     * @param id of the user
+     * @param password new password
+     */
+    public void changePassword(String id, String password);
+
+    /**
+     * user login
+     * @param id of the user
+     * @param password of the user
+     * @return the user or null
+     */
+    public User login(String id, String password);
+
+    /**
      * get user by id
      * @param id of the user to query
      * @return the user with the id

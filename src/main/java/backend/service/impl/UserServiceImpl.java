@@ -46,6 +46,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CachePut(key = "#id")
+    public void changePassword(String id, String password) {
+        userRepository.updatePasswordById(id, password);
+    }
+
+    @Override
+    public User login(String id, String password) {
+        return userRepository.getByUserAccountAndPassword(id, password);
+    }
+
+    @Override
     @Cacheable(key = "#id")
     public Optional<User> getUserById(String id) {
         return userRepository.findById(id);
