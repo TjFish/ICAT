@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author: OY
  * @date: 19:27 2019/12/1
  */
-@ControllerAdvice
+@ControllerAdvice(basePackages = {"ICAT"})
 public class GlobalDefultExceptionHandler {
 
     @ExceptionHandler(ServiceException.class)

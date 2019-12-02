@@ -38,7 +38,10 @@ public class CURDServiceImpl<E,IDTYPE,R extends JpaRepository<E,IDTYPE>> impleme
     }
 
     @Override
-    public void update(E e) {
+    public void update(IDTYPE id,E e) {
+        if(!r.existsById(id)) {
+            throw new ServiceException(HttpStatus.NOT_FOUND);
+        }
         r.saveAndFlush(e);
     }
 
