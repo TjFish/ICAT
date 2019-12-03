@@ -3,6 +3,7 @@ package ICAT.backend.controller;
 import ICAT.backend.pojo.User;
 import ICAT.backend.service.UserService;
 import ICAT.backend.utils.JWTUtil;
+import ICAT.common.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,7 @@ public class UserController {
     @PostMapping(value = "/Login")
     public ResponseEntity<String> login(@RequestParam String account, @RequestParam String password) {
         if (userService.login(account, password) == null) {
-            return new ResponseEntity<>("用户名或密码错误", HttpStatus.BAD_REQUEST);
+            throw new UnauthorizedException("username or password incorrect");
         } else {
             return new ResponseEntity<>(JWTUtil.sign(account, password), HttpStatus.OK);
         }

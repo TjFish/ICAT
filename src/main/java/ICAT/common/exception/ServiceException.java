@@ -20,6 +20,10 @@ public class ServiceException extends RuntimeException implements Serializable {
         this(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    public ServiceException(String msg) {
+        this(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     public ServiceException(HttpStatus status) {
         this("no message", status);
     }
