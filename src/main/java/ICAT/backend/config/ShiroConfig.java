@@ -1,13 +1,8 @@
 package ICAT.backend.config;
 
-import ICAT.backend.shiro.StatelessDefaultSubjectFactory;
 import ICAT.backend.shiro.filter.JwtFilter;
 import ICAT.backend.shiro.jwt.JwtRealm;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.credential.CredentialsMatcher;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
@@ -15,6 +10,8 @@ import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
@@ -35,11 +32,10 @@ public class ShiroConfig {
      * 自定义Realm
      * @return
      */
-    @Bean(name = "jwtRealm")
+    @Bean
     @DependsOn("lifecycleBeanPostProcessor")
     public JwtRealm jwtRealm() {
         JwtRealm jwtRealm = new JwtRealm();
-        // jwtRealm.setCredentialsMatcher(credentialsMatcher());
         jwtRealm.setCachingEnabled(false);
         return jwtRealm;
     }
@@ -58,28 +54,23 @@ public class ShiroConfig {
     @DependsOn("securityManager")
     public ShiroFilterFactoryBean shiroFilter(DefaultSecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilter  = new ShiroFilterFactoryBean();
+        // 设置 securityManager
         shiroFilter.setSecurityManager(securityManager);
-        // 拦截器
-        Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
-
+        // 设置 filter
+        Map<String, Filter> filters = new LinkedHashMap<>();
+        filters.put("jwt", new JwtFilter());
+        shiroFilter.setFilters(filters);
+        // 过滤链
+        Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 允许用户匿名访问/login(登录接口)
         filterChainDefinitionMap.put("/login", "anon");
-
         // swagger允许匿名访问
         filterChainDefinitionMap.put("/swagger-ui.html","anon");
         filterChainDefinitionMap.put("/swagger-resources/**","anon");
-
         // 需要 Filter
-        // TO DO
-        // filterChainDefinitionMap.put("/**", "jwt");
-
+        filterChainDefinitionMap.put("/**", "jwt");
+        // 设置过滤链
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
-
-        Map<String, Filter> filters = new LinkedHashMap<>();
-        filters.put("jwt", new JwtFilter());
-
-        shiroFilter.setFilters(filters);
-
         return shiroFilter;
     }
 
@@ -101,6 +92,7 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager(){
         DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
 
+        // 配置 realm
         securityManager.setRealm(jwtRealm());
 
         // 替换默认的DefaultSubjectFactory，用于关闭session功能
@@ -123,19 +115,6 @@ public class ShiroConfig {
         // 关闭session定时检查，通过setSessionValidationSchedulerEnabled禁用掉会话调度器
         sessionManager.setSessionValidationSchedulerEnabled(false);
         return  sessionManager;
-    }
-
-    /**
-     * 凭证匹配器
-     * @return
-     */
-    @Bean
-    public CredentialsMatcher credentialsMatcher(){
-        HashedCredentialsMatcher hashedCredentialsMatcher =new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
-        hashedCredentialsMatcher.setHashIterations(1024);
-        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
-        return hashedCredentialsMatcher;
     }
 
     /**
@@ -164,5 +143,14 @@ public class ShiroConfig {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager());
         return authorizationAttributeSourceAdvisor;
+    }
+}
+
+class StatelessDefaultSubjectFactory extends DefaultWebSubjectFactory {
+    @Override
+    public Subject createSubject(SubjectContext context) {
+        // 不创建session
+        context.setSessionCreationEnabled(false);
+        return super.createSubject(context);
     }
 }

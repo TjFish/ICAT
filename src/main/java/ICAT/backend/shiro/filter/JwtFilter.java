@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
@@ -32,34 +33,29 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      *
      */
     @Override
-    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String authorization = httpServletRequest.getHeader("Authorization");
-
         JwtToken token = new JwtToken(authorization);
-        // 提交给realm进行登入，如果错误他会抛出异常并被捕获
-        getSubject(request, response).login(token);
-        // 如果没有抛出异常则代表登入成功，返回true
-        return true;
+        try {
+            // 提交给realm进行登入，如果错误他会抛出异常并被捕获
+            getSubject(request, response).login(token);
+            return true;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            return false;
+        }
     }
 
     /**
-     * 这里我们详细说明下为什么最终返回的都是true，即允许访问
-     * 例如我们提供一个地址 GET /article
-     * 登入用户和游客看到的内容是不同的
      * 如果在这里返回了false，请求会被直接拦截，用户看不到任何东西
      * 所以我们在这里返回true，Controller中可以通过 subject.isAuthenticated() 来判断用户是否登入
      * 如果有些资源只有登入用户才能访问，我们只需要在方法上面加上 @RequiresAuthentication 注解即可
-     * 但是这样做有一个缺点，就是不能够对GET,POST等请求进行分别过滤鉴权(因为我们重写了官方的方法)，但实际上对应用影响不大
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         if (isLoginAttempt(request, response)) {
-            try {
-                executeLogin(request, response);
-            } catch (Exception e) {
-                response401(request, response);
-            }
+            return executeLogin(request, response);
         }
         return true;
     }
@@ -82,15 +78,36 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         return super.preHandle(request, response);
     }
 
-    /**
-     * 将非法请求跳转到 /401
-     */
-    private void response401(ServletRequest req, ServletResponse resp) {
+    @Override
+    protected boolean sendChallenge(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        httpResponse.setContentType("application/json;charset=utf-8");
+        final String message = "Sorry! You are unauthorized";
         try {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/401");
+            PrintWriter out = httpResponse.getWriter();
+            String responseJson = "{\"message\": \"" + message + "\"}";
+            out.print(responseJson);
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("sendChallenge error：", e);
         }
+        return false;
     }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        httpResponse.setContentType("application/json;charset=utf-8");
+        final String message = "Sorry! You are unauthorized";
+        try {
+            PrintWriter out = httpResponse.getWriter();
+            String responseJson = "{\"message\": \"" + message + "\"}";
+            out.print(responseJson);
+        } catch (IOException e) {
+            LOGGER.error("onAccessDenied error：", e);
+        }
+        return false;
+    }
+
 }

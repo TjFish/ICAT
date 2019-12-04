@@ -4,6 +4,8 @@ import ICAT.backend.pojo.User;
 import ICAT.backend.service.UserService;
 import ICAT.backend.utils.JWTUtil;
 import ICAT.common.exception.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
