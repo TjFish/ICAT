@@ -97,20 +97,4 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         return false;
     }
 
-    @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-        httpResponse.setContentType("application/json;charset=utf-8");
-        final String message = "Sorry! You are unauthorized";
-        try {
-            PrintWriter out = httpResponse.getWriter();
-            String responseJson = "{\"message\": \"" + message + "\"}";
-            out.print(responseJson);
-        } catch (IOException e) {
-            LOGGER.error("onAccessDenied error：", e);
-        }
-        return false;
-    }
-
 }

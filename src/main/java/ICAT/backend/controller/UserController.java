@@ -74,7 +74,7 @@ public class UserController {
         if (userService.login(account, password) == null) {
             throw new UnauthorizedException("username or password incorrect");
         } else {
-            return new ResponseEntity<>(JWTUtil.sign(account, password), HttpStatus.OK);
+            return new ResponseEntity<>(JWTUtil.sign(account, password, "user"), HttpStatus.OK);
         }
     }
 
@@ -82,8 +82,8 @@ public class UserController {
     @RequiresAuthentication
     @RequiresRoles("admin")
     public UserWithoutPassword deleteUser(@PathVariable("userId") String id) {
-        userService.deleteUserById(id);
         User user = userService.getUserById(id).orElse(null);
+        userService.deleteUserById(id);
         return getUserWithoutPassword(user);
     }
 

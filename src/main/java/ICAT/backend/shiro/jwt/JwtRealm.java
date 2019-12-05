@@ -13,6 +13,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +41,15 @@ public class JwtRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String account = JWTUtil.getUsername(principals.toString());
+        String role = JWTUtil.getRole(principals.toString());
         Set<String> roles = new HashSet<>();
         Set<String> permissions = new HashSet<>();
-        Admin admin = adminService.getAdminById(account).orElse(null);
-        if (admin != null) {
+        if (role.equals("admin")) {
+            String account = JWTUtil.getUsername(principals.toString());
+            Admin admin = adminService.getAdminById(account).orElse(null);
+            if (admin == null) {
+                throw new UnauthorizedException("Token error!");
+            }
             roles.add("admin");
             permissions.add("admin");
             if (admin.getRole().intValue() == 0) {
@@ -68,18 +73,29 @@ public class JwtRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
 
-        // 解密获得username，用于和数据库进行对比
+        // 解密获得username & role，用于和数据库进行对比
         String username = JWTUtil.getUsername(token);
-        if (username == null) {
+        String role = JWTUtil.getRole(token);
+        if (username == null || role == null) {
             throw new AuthenticationException("token invalid");
         }
 
-        User user = userService.getUserById(username).orElse(null);
-        if (user == null) {
-            throw new AuthenticationException("User didn't existed!");
+        String password = null;
+        if (role.equals("user")) {
+            User user = userService.getUserById(username).orElse(null);
+            if (user == null) {
+                throw new AuthenticationException("User didn't existed!");
+            }
+            password = user.getPassword();
+        } else if (role.equals("admin")) {
+            Admin admin = adminService.getAdminById(username).orElse(null);
+            if (admin == null) {
+                throw new AuthenticationException("User didn't existed!");
+            }
+            password = admin.getPassword();
         }
 
-        if (! JWTUtil.verify(token, username, user.getPassword())) {
+        if (! JWTUtil.verify(token, username, password)) {
             throw new AuthenticationException("Username or password error");
         }
 
