@@ -42,7 +42,7 @@ public class CURDController<E,IDTYPE,S extends CURDService<E,IDTYPE>> {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity put(@PathVariable("id") IDTYPE id,@RequestBody E e) {
-        s.update(e);
+        s.update(id,e);
         return new ResponseEntity<>("更新成功",HttpStatus.CREATED);
     }
 }
