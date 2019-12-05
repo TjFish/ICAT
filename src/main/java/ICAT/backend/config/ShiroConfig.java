@@ -75,6 +75,18 @@ public class ShiroConfig {
     }
 
     /**
+     * 替换默认工厂
+     */
+    class StatelessDefaultSubjectFactory extends DefaultWebSubjectFactory {
+        @Override
+        public Subject createSubject(SubjectContext context) {
+            // 不创建session
+            context.setSessionCreationEnabled(false);
+            return super.createSubject(context);
+        }
+    }
+
+    /**
      * Subject工厂管理器
      * @return
      */
@@ -143,14 +155,5 @@ public class ShiroConfig {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager());
         return authorizationAttributeSourceAdvisor;
-    }
-}
-
-class StatelessDefaultSubjectFactory extends DefaultWebSubjectFactory {
-    @Override
-    public Subject createSubject(SubjectContext context) {
-        // 不创建session
-        context.setSessionCreationEnabled(false);
-        return super.createSubject(context);
     }
 }
