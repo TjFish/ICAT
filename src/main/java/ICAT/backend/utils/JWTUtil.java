@@ -46,17 +46,31 @@ public class JWTUtil {
     }
 
     /**
+     * 获得token中的信息无需secret解密也能获得
+     * @return token中包含的Role
+     */
+    public static String getRole(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("role").asString();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
+
+    /**
      * 生成签名, 24h后过期
      * @param username 用户名
      * @param secret 用户的密码
      * @return 加密的token
      */
-    public static String sign(String username, String secret) {
+    public static String sign(String username, String secret, String role) {
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         Algorithm algorithm = Algorithm.HMAC256(secret);
         // 附带username信息
         return JWT.create()
                 .withClaim("username", username)
+                .withClaim("role", role)
                 .withExpiresAt(date)
                 .sign(algorithm);
     }

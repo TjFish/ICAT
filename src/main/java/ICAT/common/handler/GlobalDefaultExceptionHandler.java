@@ -29,14 +29,16 @@ public class GlobalDefaultExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ShiroException.class)
     public ResponseEntity<String> handle401(ShiroException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        String body = String.format("Msg: %s", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
     // 捕捉UnauthorizedException
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<String> handle401(UnauthorizedException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        String body = String.format("Msg: %s", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
 }

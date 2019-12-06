@@ -63,7 +63,8 @@ public class ShiroConfig {
         // 过滤链
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 允许用户匿名访问/login(登录接口)
-        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/Users/Login", "anon");
+        filterChainDefinitionMap.put("/Admins/Login", "anon");
         // swagger允许匿名访问
         filterChainDefinitionMap.put("/swagger-ui.html","anon");
         filterChainDefinitionMap.put("/swagger-resources/**","anon");
@@ -72,6 +73,18 @@ public class ShiroConfig {
         // 设置过滤链
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilter;
+    }
+
+    /**
+     * 替换默认工厂
+     */
+    class StatelessDefaultSubjectFactory extends DefaultWebSubjectFactory {
+        @Override
+        public Subject createSubject(SubjectContext context) {
+            // 不创建session
+            context.setSessionCreationEnabled(false);
+            return super.createSubject(context);
+        }
     }
 
     /**
@@ -143,14 +156,5 @@ public class ShiroConfig {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager());
         return authorizationAttributeSourceAdvisor;
-    }
-}
-
-class StatelessDefaultSubjectFactory extends DefaultWebSubjectFactory {
-    @Override
-    public Subject createSubject(SubjectContext context) {
-        // 不创建session
-        context.setSessionCreationEnabled(false);
-        return super.createSubject(context);
     }
 }
