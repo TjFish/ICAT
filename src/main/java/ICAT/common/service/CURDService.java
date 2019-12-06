@@ -2,6 +2,7 @@ package ICAT.common.service;
 
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -12,17 +13,17 @@ import java.util.List;
  */
 
 // 膜拜学长膜拜膜拜膜拜
-
+@Transactional
 @Service
 public interface CURDService<E, IDTYPE> {
 
      E add(E one);
 
-     void deleteById(IDTYPE Id);
+     void deleteById(IDTYPE id);
 
-     void update(E one);
+     void update(IDTYPE id, E one);
 
-     E queryById(IDTYPE Id);
+     E queryById(IDTYPE id);
 
      List<E> queryAll();
 

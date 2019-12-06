@@ -53,4 +53,11 @@ public interface UserService {
      */
     public Optional<User> getUserById(String id);
 
+    /**
+     * get the verifycode for register or change passwrod\
+     * @param id the eamil adress to recive the verify email
+     * @param option opetion==1 register || option ==2 change password
+     * @return verifycode
+     */
+    public String getVerifyCode(String id,Integer option);
 }

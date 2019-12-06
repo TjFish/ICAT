@@ -40,9 +40,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/VerifyCode")
-    public UserWithoutPassword getVerifyCode(@RequestParam String id, @RequestParam Integer option) {
-        User user = userService.getUserById(id).orElse(null);
-        return getUserWithoutPassword(user);
+    public ResponseEntity<String> getVerifyCode(@RequestParam String id, @RequestParam Integer option) {
+        return new ResponseEntity<>(userService.getVerifyCode(id,option),HttpStatus.OK);
     }
 
     @PostMapping(value = "/ChangePassword")

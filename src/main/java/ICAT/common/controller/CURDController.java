@@ -41,9 +41,9 @@ public class CURDController<E, IDTYPE, S extends CURDService<E,IDTYPE>> {
         return new ResponseEntity<>("删除成功", HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping(value = "/")
-    public ResponseEntity put(@RequestBody E e) {
-        s.update(e);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity put(@PathVariable("id") IDTYPE id,@RequestBody E e) {
+        s.update(id,e);
         return new ResponseEntity<>("更新成功", HttpStatus.CREATED);
     }
 }
