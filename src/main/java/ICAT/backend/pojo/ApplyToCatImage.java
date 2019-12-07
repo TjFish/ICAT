@@ -14,9 +14,32 @@ public class ApplyToCatImage {
     private String imageUrl;
     private Timestamp applicationTime;
     private String auditStatus;
+    private String userAccount;
+    private String catId;
+
+    @Basic
+    @Column(name = "userAccount")
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    @Basic
+    @Column(name = "catID")
+    public String getCatId() {
+        return catId;
+    }
+
+    public void setCatId(String catId) {
+        this.catId = catId;
+    }
 
     @Id
     @Column(name = "applicationID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getApplicationId() {
         return applicationId;
     }

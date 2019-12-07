@@ -28,9 +28,9 @@ public class ApplyToCatImageServiceImpl implements ApplyToCatImageService {
 
     @Override
     @CachePut(key = "#adoption.applicationId")
-    public void addApplyToCatImage(ApplyToCatImage adoption) {
-        applyToCatImageRepository.saveAndFlush(adoption);
-
+    public Integer addApplyToCatImage(ApplyToCatImage adoption) {
+        ApplyToCatImage newApply =  applyToCatImageRepository.saveAndFlush(adoption);
+        return newApply.getApplicationId();
     }
 
     @Override

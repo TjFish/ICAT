@@ -1,7 +1,6 @@
 server:
   port: 1234
 
-
 spring:
   datasource:
     username: root
@@ -34,6 +33,10 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       # 映射规则，有两种规则，physical：使用驼峰命名,implict: 使用下划线命名
     show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 mybatis:
   type-aliases-package: backend.pojo

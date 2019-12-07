@@ -14,6 +14,17 @@ public class Admin {
     private String password;
     private BigInteger role;
     private String nikename;
+    private String headPortrait;
+
+    @Basic
+    @Column(name = "headPortrait")
+    public String getHeadPortrait() {
+        return headPortrait;
+    }
+
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
+    }
 
     @Id
     @Column(name = "adminID")

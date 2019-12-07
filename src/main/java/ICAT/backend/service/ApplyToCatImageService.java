@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public interface ApplyToCatImageService {
-    public void addApplyToCatImage(ApplyToCatImage application);
+    public Integer addApplyToCatImage(ApplyToCatImage application);
 
     public void deleteApplyToCatImageById(String id);
 
