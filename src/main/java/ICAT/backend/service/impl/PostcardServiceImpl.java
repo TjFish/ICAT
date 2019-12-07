@@ -1,14 +1,14 @@
 package ICAT.backend.service.impl;
 
 import ICAT.backend.dao.mapper.PostcardMapper;
-import ICAT.backend.dao.repository.PostcardRepository;
 import ICAT.backend.pojo.Postcard;
 import ICAT.backend.service.PostcardService;
-import ICAT.common.service.Impl.CURDServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PostcardServiceImpl implements PostcardService {
     @Autowired
     PostcardMapper postcardMapper;
@@ -39,7 +39,7 @@ public class PostcardServiceImpl implements PostcardService {
     }
 
     @Override
-    public List<Postcard> getPostcardByYear(String year){
+    public List<Postcard> getPostcardByYear(Integer year){
         return postcardMapper.getPostcardByYear(year);
     }
 

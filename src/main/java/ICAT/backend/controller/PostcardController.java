@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping(value = "/postcard",  produces = "application/json;charset=utf-8")
 public class PostcardController {
     @Autowired
-    SequenceService sequenceService;
-    @Autowired
     PostcardService postcardService;
 
     @GetMapping(value = "/")
@@ -44,5 +42,7 @@ public class PostcardController {
     }
 
     @GetMapping(value = "/OneYear")
-    public List<Postcard> getPostcardByYear(@)
+    public List<Postcard> getPostcardByYear(@RequestParam Integer year){
+        return postcardService.getPostcardByYear(year);
+    }
 }

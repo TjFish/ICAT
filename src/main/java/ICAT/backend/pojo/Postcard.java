@@ -6,8 +6,6 @@ import javax.persistence.*;
  * @author: OY
  * @date: 10:18 2019/11/27
  */
-@Table(name = "postcard")
-@Entity
 public class Postcard {
     private String imageId;
     private int produceYear;

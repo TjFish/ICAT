@@ -18,5 +18,5 @@ public interface PostcardMapper {
 
     public List<Integer> getYears();
 
-    public List<Postcard> getPostcardByYear(String year);
+    public List<Postcard> getPostcardByYear(Integer year);
 }
