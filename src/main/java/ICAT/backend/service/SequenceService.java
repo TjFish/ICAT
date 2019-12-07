@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 public interface SequenceService {
 
     String getNextCatId();
+
     String getNextIOId();
+
     String getNextImageId();
+
     String getNextDiseaseRecordId();
+
     String getNextActivityId();
 }

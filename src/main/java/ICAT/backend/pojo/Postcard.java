@@ -6,13 +6,20 @@ import javax.persistence.*;
  * @author: OY
  * @date: 10:18 2019/11/27
  */
-@Table(name = "postcard")
-@Entity
 public class Postcard {
     private String imageId;
     private int produceYear;
     private String producer;
     private String remark;
+    private String imageURL;
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
     @Id
     @Column(name = "imageID")

@@ -18,6 +18,16 @@ public class Activity {
     private String activityTitle;
     private String activityDescription;
     private Timestamp publishtime;
+    private String activityCover;
+
+    public String getActivityCover() {
+        return activityCover;
+    }
+
+    public void setActivityCover(String activityCover) {
+        this.activityCover = activityCover;
+    }
+
 
     @Id
     @Column(name = "activityID")

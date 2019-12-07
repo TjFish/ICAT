@@ -13,6 +13,15 @@ public class User {
     private String password;
     private String nickname;
     private String introduction;
+    private String headPortrait;
+
+    public String getHeadPortrait() {
+        return headPortrait;
+    }
+
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
+    }
 
     @Id
     @Column(name = "userAccount")
