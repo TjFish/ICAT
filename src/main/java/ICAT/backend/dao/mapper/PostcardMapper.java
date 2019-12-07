@@ -1,14 +1,13 @@
-package ICAT.backend.service;
+package ICAT.backend.dao.mapper;
 
 import ICAT.backend.pojo.Postcard;
-import ICAT.common.service.CURDService;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
+import java.time.Year;
 import java.util.List;
 
-@Service
-public interface PostcardService {
+@Repository
+public interface PostcardMapper {
     public List<Postcard> getAllPostcards();
 
     public Postcard getPostcardById(String id);
