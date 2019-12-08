@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="backend.dao.mapper.PersonMapper">
+<mapper namespace="ICAT.backend.dao.mapper.PersonMapper">
 
-    <insert id="addPerson" parameterType="backend.pojo.Person">
+    <insert id="addPerson" parameterType="ICAT.backend.pojo.Person">
         insert into person(id, name, age, gender, position)
         values (#{id}, #{name}, #{age}, #{gender}, #{position})
     </insert>
@@ -13,7 +13,7 @@
         where id = #{id}
     </delete>
 
-    <update id="updatePerson" parameterType="backend.pojo.Person">
+    <update id="updatePerson" parameterType="ICAT.backend.pojo.Person">
         update person
         set name     = #{name},
             age      = #{age},
@@ -22,13 +22,13 @@
         where id = #{id}
     </update>
 
-    <select id="queryPersonById" parameterType="java.lang.Integer" resultType="backend.pojo.Person">
+    <select id="queryPersonById" parameterType="java.lang.Integer" resultType="ICAT.backend.pojo.Person">
         select *
         from person
         where id = #{id}
     </select>
 
-    <select id="queryAllPersons" resultType="backend.pojo.Person">
+    <select id="queryAllPersons" resultType="ICAT.backend.pojo.Person">
         select *
         from person
     </select>
