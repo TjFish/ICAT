@@ -33,10 +33,24 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       # 映射规则，有两种规则，physical：使用驼峰命名,implict: 使用下划线命名
     show-sql: true
+
+  mail:
+    host: smtp.qq.com
+    username: 1509390230@qq.com
+    password: mmgctqhoiwzaiiaj
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
   servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+
 
 mybatis:
   type-aliases-package: backend.pojo

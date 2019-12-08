@@ -2,17 +2,25 @@ package ICAT.backend.service.impl;
 
 import ICAT.backend.pojo.User;
 import ICAT.backend.dao.repository.UserRepository;
+import ICAT.backend.service.EmailService;
 import ICAT.backend.service.UserService;
+import ICAT.common.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Transactional
 @Service
@@ -21,6 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public List<User> getAllUser() {
@@ -61,5 +71,31 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserById(String id) {
         return userRepository.findById(id);
     }
+
+    @Override
+    public String getVerifyCode(String id,Integer option) {
+        Optional<User> user = userRepository.findById(id);
+        Integer randomNum=new Random().nextInt(999999 - 100000 + 1) + 100000;
+        String verifyCode= randomNum.toString();
+        if(option==1){
+            if(user.isPresent()) {// 注册请求但该账户已经注册
+                throw new ServiceException("用户已注册", HttpStatus.CONFLICT);
+            }
+            emailService.sendReisterEmail(id,verifyCode);
+            return verifyCode;
+        }
+        if(option==2){
+            if(!user.isPresent()) {//修改密码请求但该账户未注册
+                throw  new ServiceException("用户未注册",HttpStatus.NOT_FOUND);
+            }
+            emailService.senChangPWDEmali(id,verifyCode);
+            return verifyCode;
+        }
+        //option != 1 and option ！= 2
+        throw new ServiceException("不支持的操作",HttpStatus.BAD_REQUEST);
+    }
+
+
+
 
 }

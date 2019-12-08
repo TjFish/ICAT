@@ -17,7 +17,8 @@ import java.util.Optional;
  * @param <IDTYPE> 实体主键类型
  * @param <R> JpaRepository
  */
-public class CURDServiceImpl<E,IDTYPE,R extends JpaRepository<E,IDTYPE>> implements CURDService<E,IDTYPE> {
+public class CURDServiceImpl<E, IDTYPE, R extends JpaRepository<E,IDTYPE>> implements CURDService<E,IDTYPE> {
+
     @Autowired
     private R r;
 

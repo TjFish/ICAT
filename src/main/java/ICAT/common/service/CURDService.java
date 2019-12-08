@@ -15,7 +15,7 @@ import java.util.List;
 // 膜拜学长膜拜膜拜膜拜
 @Transactional
 @Service
-public interface CURDService<E,IDTYPE> {
+public interface CURDService<E, IDTYPE> {
 
      E add(E one);
 

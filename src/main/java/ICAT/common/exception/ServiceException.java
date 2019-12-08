@@ -11,18 +11,25 @@ import java.io.Serializable;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ServiceException extends RuntimeException implements Serializable {
-    private String msg="nothing";
-    private HttpStatus status=HttpStatus.INTERNAL_SERVER_ERROR;
-    private Integer errorCode=-1;
-    public ServiceException(HttpStatus status){
-        this.status=status;
+
+    private String msg;
+    private HttpStatus status;
+
+    public ServiceException() {
+        this(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    public ServiceException(String msg, Integer errorCode){
-        this.msg=msg;
-        this.errorCode=errorCode;
+
+    public ServiceException(String msg) {
+        this(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public ServiceException(HttpStatus status) {
+        this("no message", status);
+    }
+
+    public ServiceException(String msg, HttpStatus status) {
+        this.msg = msg;
+        this.status = status;
     }
 }

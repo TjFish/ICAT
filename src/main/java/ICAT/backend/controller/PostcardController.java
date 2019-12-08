@@ -17,11 +17,13 @@ public class PostcardController {
     PostcardService postcardService;
 
     @GetMapping(value = "/")
+    @ResponseBody
     public List<Postcard> getAllPostcard(){
         return postcardService.getAllPostcards();
     }
 
     @GetMapping(value = "/{id}")
+    @ResponseBody
     public Postcard getPostcardById(@PathVariable String id){
         return postcardService.getPostcardById(id);
     }
@@ -37,11 +39,13 @@ public class PostcardController {
     }
 
     @GetMapping(value = "/Years")
+    @ResponseBody
     public List<Integer> getYears(){
         return postcardService.getYears();
     }
 
     @GetMapping(value = "/OneYear")
+    @ResponseBody
     public List<Postcard> getPostcardByYear(@RequestParam Integer year){
         return postcardService.getPostcardByYear(year);
     }

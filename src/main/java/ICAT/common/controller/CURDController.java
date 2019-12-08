@@ -15,7 +15,8 @@ import java.util.List;
  * @param <IDTYPE> 实体主键类型
  * @param <S> 实体Service
  */
-public class CURDController<E,IDTYPE,S extends CURDService<E,IDTYPE>> {
+public class CURDController<E, IDTYPE, S extends CURDService<E,IDTYPE>> {
+
     @Autowired
     private S s;
 
@@ -31,18 +32,20 @@ public class CURDController<E,IDTYPE,S extends CURDService<E,IDTYPE>> {
 
     @PostMapping(value = "/")
     public ResponseEntity<E> add(@RequestBody E e) {
-        return new ResponseEntity<>(s.add(e),HttpStatus.CREATED);
+        return new ResponseEntity<>(s.add(e), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable("id") IDTYPE id) {
         s.deleteById(id);
-        return new ResponseEntity<>("删除成功",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("删除成功", HttpStatus.NO_CONTENT);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity put(@PathVariable("id") IDTYPE id,@RequestBody E e) {
         s.update(id,e);
-        return new ResponseEntity<>("更新成功",HttpStatus.CREATED);
+
+        return new ResponseEntity<>("更新成功", HttpStatus.CREATED);
+
     }
 }
