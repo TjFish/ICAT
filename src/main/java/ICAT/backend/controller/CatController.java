@@ -15,19 +15,17 @@ import java.util.Optional;
  * @date 12:07 2019/11/30
  */
 @RestController
-@RequestMapping(value = "/api/Cats", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "Cats", produces = "application/json;charset=utf-8")
 public class CatController {
     @Autowired
     CatService catService;
 
     @GetMapping(value = "/")
-    @ResponseBody
     public List<Cat> getAllCat() {
         return catService.queryAllCat();
     }
 
     @GetMapping(value = "/{catId}")
-    @ResponseBody
     public Optional<Cat> getCatById(@PathVariable("catId") String id) {
         return catService.queryCatById(id);
     }
@@ -49,14 +47,11 @@ public class CatController {
     }
 
     @GetMapping(value = "/Image")
-    @ResponseBody
     public List<Image> getAllImageByCatId(@RequestParam String id) {
         return catService.getAllImageByCatId(id);
     }
 
-
     @GetMapping(value = "/Diserecord")
-    @ResponseBody
     public List<DiseaseRecord> getAllDiseaseRecordByCatId(@RequestParam String id) {
         return catService.getAllDiseaseRecordByCatId(id);
     }

@@ -13,19 +13,17 @@ import java.util.Optional;
  * @date 14:17 2019/11/30
  */
 @RestController
-@RequestMapping(value = "/api/Adoptions", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "Adoptions", produces = "application/json;charset=utf-8")
 public class AdoptionController {
     @Autowired
     AdoptionService adoptionService;
 
     @GetMapping(value = "/")
-    @ResponseBody
     public List<Adoption> getAllAdoption() {
         return adoptionService.queryAllAdoption();
     }
 
     @GetMapping(value = "/{catId}")
-    @ResponseBody
     public Optional<Adoption> getAdoptionById(@PathVariable("catId") String id) {
         return adoptionService.queryAdoptionById(id);
     }

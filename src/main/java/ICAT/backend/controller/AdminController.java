@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/Admins", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/Admins", produces = "application/json;charset=utf-8")
 public class AdminController {
 
     @Autowired

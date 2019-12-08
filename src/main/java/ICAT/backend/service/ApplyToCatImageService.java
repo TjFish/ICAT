@@ -1,10 +1,8 @@
 package ICAT.backend.service;
 
 import ICAT.backend.pojo.ApplyToCatImage;
-import ICAT.backend.pojo.Image;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +24,4 @@ public interface ApplyToCatImageService {
     public List<ApplyToCatImage> queryAllApplyToCatImage();
 
     public boolean existsById(String id);
-
-    public Image auditPassApplyToCatImage(HttpServletRequest request, String id);
 }

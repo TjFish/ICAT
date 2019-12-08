@@ -13,19 +13,17 @@ import java.util.Optional;
  * @date 12:19 2019/11/30
  */
 @RestController
-@RequestMapping(value = "/api/CatColors", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "CatColors", produces = "application/json;charset=utf-8")
 public class CatColorController {
     @Autowired
     CatColorService catColorService;
 
     @GetMapping(value = "/")
-    @ResponseBody
     public List<CatColor> getAllCatColor() {
         return catColorService.queryAllCatColor();
     }
 
     @GetMapping(value = "/{colorId}")
-    @ResponseBody
     public Optional<CatColor> getCatColorById(@PathVariable("colorId") String id) {
         return catColorService.queryCatColorById(id);
     }
