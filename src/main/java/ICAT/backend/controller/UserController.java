@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/Users", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/api/Users", produces = "application/json;charset=utf-8")
 public class UserController {
 
     @Autowired
@@ -25,7 +25,6 @@ public class UserController {
     @GetMapping(value = "/")
     @RequiresAuthentication
     @RequiresRoles("admin")
-    @ResponseBody
     public List<UserWithoutPassword> getAllUser() {
         return userService.getAllUser()
                 .stream()
@@ -35,21 +34,18 @@ public class UserController {
 
     @GetMapping(value = "/{userId}")
     @RequiresAuthentication
-    @ResponseBody
     public UserWithoutPassword getUserById(@PathVariable("userId") String id) {
         User user = userService.getUserById(id).orElse(null);
         return getUserWithoutPassword(user);
     }
 
     @GetMapping(value = "/VerifyCode")
-    @ResponseBody
     public ResponseEntity<String> getVerifyCode(@RequestParam String id, @RequestParam Integer option) {
         return new ResponseEntity<>(userService.getVerifyCode(id,option),HttpStatus.OK);
     }
 
     @PostMapping(value = "/ChangePassword")
     @RequiresAuthentication
-    @ResponseBody
     public UserWithoutPassword changePassword(@RequestParam String account, @RequestParam String password) {
         userService.changePassword(account, password);
         User user = userService.getUserById(account).orElse(null);
@@ -57,7 +53,6 @@ public class UserController {
     }
 
     @PostMapping(value = "/")
-    @ResponseBody
     public UserWithoutPassword addUser(@RequestBody User user) {
         userService.addUser(user);
         User newUser = userService.getUserById(user.getUserAccount()).orElse(null);
@@ -72,7 +67,6 @@ public class UserController {
     }
 
     @PostMapping(value = "/Login")
-    @ResponseBody
     public ResponseEntity<String> login(@RequestBody LoginBody loginBody) {
         String account = loginBody.account;
         String password = loginBody.password;
@@ -86,7 +80,6 @@ public class UserController {
     @DeleteMapping(value = "/{userId}")
     @RequiresAuthentication
     @RequiresRoles("admin")
-    @ResponseBody
     public UserWithoutPassword deleteUser(@PathVariable("userId") String id) {
         User user = userService.getUserById(id).orElse(null);
         userService.deleteUserById(id);
