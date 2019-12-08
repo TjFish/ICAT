@@ -11,7 +11,7 @@ import java.time.Year;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/postcard",  produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/postcard",  produces = "application/json;charset=utf-8")
 public class PostcardController {
     @Autowired
     PostcardService postcardService;

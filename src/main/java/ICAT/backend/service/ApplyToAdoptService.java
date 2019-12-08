@@ -23,6 +23,4 @@ public interface ApplyToAdoptService {
     public List<ApplyToAdopt> queryAllApplyToAdopt();
 
     public boolean existsById(String id);
-
-    public boolean auditPassApplyToAdopt(String id);
 }

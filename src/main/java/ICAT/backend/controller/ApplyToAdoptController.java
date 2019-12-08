@@ -3,12 +3,8 @@ package ICAT.backend.controller;
 import ICAT.backend.pojo.ApplyToAdopt;
 import ICAT.backend.service.ApplyToAdoptService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,12 +44,8 @@ public class ApplyToAdoptController {
     }
 
     @GetMapping(value = "/AuditPass")
-    public ResponseEntity auditPassApplyToAdopt(@RequestParam String applicationId) throws IOException {
-        if (applyToAdoptService.auditPassApplyToAdopt(applicationId)) {
-            return new ResponseEntity<>("成功", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("无指定ID", HttpStatus.NOT_FOUND);
-        }
+    public void auditPassApplyToAdopt(@RequestParam  String applicationId){
+        //todo: 领养申请通过的实现
 
     }
 }

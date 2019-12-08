@@ -2,7 +2,6 @@ package ICAT.backend.pojo;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author: OY
@@ -105,14 +104,5 @@ public class Adoption {
         result = 31 * result + (userAddress != null ? userAddress.hashCode() : 0);
         result = 31 * result + (userGender != null ? userGender.hashCode() : 0);
         return result;
-    }
-
-    public Adoption(ApplyToAdopt applyToAdopt) {
-        this.catId = applyToAdopt.getCatId();
-        this.userAddress = applyToAdopt.getUserAddress();
-        this.userGender = applyToAdopt.getUserGender();
-        this.userName = applyToAdopt.getUserName();
-        this.userPhone = applyToAdopt.getUserPhone();
-        this.adoptTime = new Timestamp(System.currentTimeMillis());
     }
 }

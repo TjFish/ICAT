@@ -1,7 +1,5 @@
 package ICAT.backend.service.impl;
 
-import ICAT.backend.dao.repository.AdoptionRepository;
-import ICAT.backend.pojo.Adoption;
 import ICAT.backend.pojo.ApplyToAdopt;
 import ICAT.backend.dao.repository.ApplyToAdoptRepository;
 import ICAT.backend.service.ApplyToAdoptService;
@@ -26,8 +24,6 @@ import java.util.Optional;
 public class ApplyToAdoptServiceImpl implements ApplyToAdoptService {
     @Autowired
     ApplyToAdoptRepository applyToAdoptRepository;
-    @Autowired
-    AdoptionRepository adoptionRepository;
 
 
     @Override
@@ -64,19 +60,5 @@ public class ApplyToAdoptServiceImpl implements ApplyToAdoptService {
     @Override
     public boolean existsById(String id) {
         return applyToAdoptRepository.existsById(id);
-    }
-
-    @Override
-    public boolean auditPassApplyToAdopt(String id) {
-        Optional<ApplyToAdopt> check = queryApplyToAdoptById(id);
-        if (check.isPresent()) {
-            ApplyToAdopt application = check.get();
-            Adoption adoption = new Adoption(application);
-            adoptionRepository.saveAndFlush(adoption);
-            applyToAdoptRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
     }
 }

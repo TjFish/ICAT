@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/Users", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/Users", produces = "application/json;charset=utf-8")
 public class UserController {
 
     @Autowired
