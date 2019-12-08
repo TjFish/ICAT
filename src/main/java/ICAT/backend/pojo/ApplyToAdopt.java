@@ -11,6 +11,8 @@ import java.sql.Timestamp;
 @Table(name = "applyToAdopt")
 public class ApplyToAdopt {
     private int applicationId;
+    private String catId;
+    private String userAccount;
     private Timestamp applicationTime;
     private String reason;
     private String auditStatus;
@@ -37,6 +39,26 @@ public class ApplyToAdopt {
 
     public void setApplicationTime(Timestamp applicationTime) {
         this.applicationTime = applicationTime;
+    }
+
+    @Basic
+    @Column(name = "catId")
+    public String getCatId() {
+        return catId;
+    }
+
+    public void setCatId(String catId) {
+        this.catId = catId;
+    }
+
+    @Basic
+    @Column(name = "userAccount")
+    public String getUserAccount(){
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
     }
 
     @Basic
@@ -131,4 +153,6 @@ public class ApplyToAdopt {
         result = 31 * result + (userGender != null ? userGender.hashCode() : 0);
         return result;
     }
+
+
 }
