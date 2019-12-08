@@ -13,7 +13,7 @@
 - [x] Mybatis
 - [x] Redis
 - [x] JPA
-- [ ] Shiro
+- [x] Shiro
 - [x] Mysql
 - [ ] Vue
 
@@ -61,3 +61,6 @@
             └── backend                            : 单元测试目录
 ```
 
+## Shiro
+- 使用`@RequiresAuthentication`注解要求`Token`并验证
+- 使用`@RequiresRoles("admin")`注解要求`admin`权限 (或者`"admin0"/"admin1"`权限)

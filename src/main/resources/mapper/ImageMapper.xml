@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ICAT.backend.dao.mapper.ImageMapper">
+    <select id="getAllImage" resultType="ICAT.backend.pojo.Image">
+        select *
+        from image
+    </select>
+
+    <select id="getImageById" parameterType="java.lang.String" resultType="ICAT.backend.pojo.Image">
+        select *
+        from image
+        where imageID = #{id}
+    </select>
+
+    <update id="updateImage" parameterType="ICAT.backend.pojo.Image">
+        update image
+        set imageURL = #{imageURL},
+            photoTime = #{photoTime}
+        where imageID = #{id}
+    </update>
+
+    <delete id="deleteImage" parameterType="java.lang.String">
+        delete
+        from image
+        where imageID = #{id}
+    </delete>
+
+    <insert id="addImage" useGeneratedKeys="true" keyProperty="imageId"
+            parameterType="ICAT.backend.pojo.Image">
+        insert into image(imageID,imageURL,photoTime)
+        value (#{imageId},#{imageUrl},#{photoTime});
+    </insert>
+</mapper>

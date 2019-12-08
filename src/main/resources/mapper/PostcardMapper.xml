@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ICAT.backend.dao.mapper.PostcardMapper">
+    <resultMap id="postcardBean" type="ICAT.backend.pojo.Postcard">
+        <id column="imageID" property="id"/>
+        <result column="imageURL" property="imageURL"/>
+    </resultMap>
+
+    <select id="getAllPostcards" resultType="ICAT.backend.pojo.Postcard">
+        select postcard.imageID, postcard.produceYear, postcard.producer, postcard.remark,image.imageURL
+        from postcard natural join image
+    </select>
+
+    <select id="getPostcardById" parameterType="java.lang.String" resultType="ICAT.backend.pojo.Postcard">
+        select *
+        from postcard
+        where imageID = #{id}
+    </select>
+
+    <update id="updatePostcard" parameterType="ICAT.backend.pojo.Postcard" >
+        update postcard
+        set produceYear = #{produceYear},
+            producer = #{producer},
+            remark = #{remark}
+        where imageID = #{imageId}
+    </update>
+    
+    <delete id="deletePostcard" parameterType="java.lang.String">
+        delete
+        from postcard
+        where imageID = #{id}
+    </delete>
+    
+    <select id="getYears" resultType="java.lang.Integer">
+        select distinct produceYear
+        from postcard
+    </select>
+
+    <select id="getPostcardByYear" parameterType="java.lang.Integer" resultType="ICAT.backend.pojo.Postcard">
+        select *
+        from postcard
+        where produceYear = #{year}
+    </select>
+
+    <insert id="addPostcard" parameterType="ICAT.backend.pojo.Postcard">
+        insert into postcard
+        value (#{imageId},#{produceYear},#{producer},#{remark})
+    </insert>
+</mapper>

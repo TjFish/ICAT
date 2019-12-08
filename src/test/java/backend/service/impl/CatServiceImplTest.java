@@ -1,8 +1,8 @@
 package backend.service.impl;
 
-import backend.pojo.Cat;
-import backend.pojo.Image;
-import backend.service.CatService;
+import ICAT.backend.pojo.Cat;
+import ICAT.backend.pojo.Image;
+import ICAT.backend.service.impl.CatServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
