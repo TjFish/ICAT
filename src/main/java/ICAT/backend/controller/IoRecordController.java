@@ -10,22 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/IoRecords", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/api/IoRecords", produces = "application/json;charset=utf-8")
 public class IoRecordController {
     @Autowired
     IoRecordsService ioRecordsService;
 
     @GetMapping(value = "/")
+    @ResponseBody
     public List<IoRecord> getAllIoRecords(){
         return ioRecordsService.queryAll();
     }
 
     @GetMapping(value = "/{id}")
+    @ResponseBody
     public IoRecord getIoRecordById(@PathVariable("id") String id){
         return ioRecordsService.queryById(id);
     }
 
     @PostMapping(value = "/")
+    @ResponseBody
     public IoRecord addIoRecord(@RequestBody IoRecord ioRecord){
         return ioRecordsService.add(ioRecord);
     }

@@ -19,10 +19,13 @@ public class ClubMemberController {
     ClubMemberService clubMemberService;
 
     @GetMapping(value = "/")
+    @ResponseBody
     public List<ClubMember> getAllClubMember() {
         return clubMemberService.queryAllClubMember();
     }
+
     @GetMapping(value = "/{studentId}")
+    @ResponseBody
     public Optional<ClubMember> getClubMemberById(@PathVariable("studentId") String Id) {
         return clubMemberService.queryClubMemberById(Id);
     }
