@@ -2,15 +2,12 @@ package ICAT.backend.controller;
 
 import ICAT.backend.pojo.ApplyToAdopt;
 import ICAT.backend.service.ApplyToAdoptService;
+import ICAT.common.controller.CURDController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Shidan Cheng
@@ -18,42 +15,12 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping(value = "ApplyToAdopts", produces = "application/json;charset=utf-8")
-public class ApplyToAdoptController {
+public class ApplyToAdoptController extends CURDController<ApplyToAdopt, Integer, ApplyToAdoptService> {
     @Autowired
     ApplyToAdoptService applyToAdoptService;
 
-    @GetMapping(value = "/")
-    public List<ApplyToAdopt> getAllApplyToAdopt() {
-        return applyToAdoptService.queryAllApplyToAdopt();
-    }
-
-    @GetMapping(value = "/{applicationId}")
-    public Optional<ApplyToAdopt> getApplyToAdoptById(@PathVariable("applicationId") String id) {
-        return applyToAdoptService.queryApplyToAdoptById(id);
-    }
-
-    @PostMapping(value = "/")
-    public void addApplyToAdopt(@RequestBody ApplyToAdopt application) {
-        applyToAdoptService.addApplyToAdopt(application);
-    }
-
-    @DeleteMapping(value = "/{applicationId}")
-    public void deleteApplyToAdoptById(@PathVariable("applicationId") String id) {
-        applyToAdoptService.deleteApplyToAdoptById(id);
-    }
-
-    @PutMapping(value = "/")
-    public void putApplyToAdopt(ApplyToAdopt application) {
-        applyToAdoptService.updateApplyToAdopt(application);
-    }
-
     @GetMapping(value = "/AuditPass")
-    public ResponseEntity auditPassApplyToAdopt(@RequestParam String applicationId) throws IOException {
-        if (applyToAdoptService.auditPassApplyToAdopt(applicationId)) {
-            return new ResponseEntity<>("成功", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("无指定ID", HttpStatus.NOT_FOUND);
-        }
-
+    public ResponseEntity auditPass(@RequestParam Integer applicationId){
+        return applyToAdoptService.auditPass(applicationId);
     }
 }

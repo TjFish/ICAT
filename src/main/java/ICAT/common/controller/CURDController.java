@@ -20,7 +20,7 @@ public class CURDController<E, IDTYPE, S extends CURDService<E,IDTYPE>> {
     @Autowired
     private S s;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public ResponseEntity<List<E>> getAll() {
         return new ResponseEntity<>(s.queryAll(), HttpStatus.OK);
     }
@@ -30,7 +30,7 @@ public class CURDController<E, IDTYPE, S extends CURDService<E,IDTYPE>> {
         return new ResponseEntity<>(s.queryById(id), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public ResponseEntity<E> add(@RequestBody E e) {
         return new ResponseEntity<>(s.add(e), HttpStatus.CREATED);
     }

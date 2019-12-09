@@ -4,11 +4,13 @@ import ICAT.backend.pojo.Cat;
 import ICAT.backend.pojo.DiseaseRecord;
 import ICAT.backend.pojo.Image;
 import ICAT.backend.service.CatService;
+import ICAT.common.controller.CURDController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Shidan Cheng
@@ -16,53 +18,27 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping(value = "/api/Cats", produces = "application/json;charset=utf-8")
-public class CatController {
+public class CatController extends CURDController<Cat, String, CatService> {
     @Autowired
-    CatService catService;
-
-    @GetMapping(value = "/")
-    @ResponseBody
-    public List<Cat> getAllCat() {
-        return catService.queryAllCat();
-    }
-
-    @GetMapping(value = "/{catId}")
-    @ResponseBody
-    public Optional<Cat> getCatById(@PathVariable("catId") String id) {
-        return catService.queryCatById(id);
-    }
-
-    @PostMapping(value = "/")
-    public void addCat(@RequestBody Cat cat) {
-        catService.addCat(cat);
-    }
-
-
-    @DeleteMapping(value = "/{catId}")
-    public void deleteCat(@PathVariable("catId") String id) {
-        catService.deleteCatById(id);
-    }
-
-    @PutMapping(value = "/")
-    public void putCat(Cat cat) {
-        catService.updateCat(cat);
-    }
+    private CatService catService;
 
     @GetMapping(value = "/Image")
-    @ResponseBody
-    public List<Image> getAllImageByCatId(@RequestParam String id) {
-        return catService.getAllImageByCatId(id);
+    public ResponseEntity<List<Image>> getAllImageByCatId(@RequestParam String id) {
+        return new ResponseEntity<>(catService.getAllImageByCatId(id), HttpStatus.OK);
     }
 
-
     @GetMapping(value = "/Diserecord")
-    @ResponseBody
-    public List<DiseaseRecord> getAllDiseaseRecordByCatId(@RequestParam String id) {
-        return catService.getAllDiseaseRecordByCatId(id);
+    public ResponseEntity<List<DiseaseRecord>> getAllDiseaseRecordByCatId(@RequestParam String id) {
+        return new ResponseEntity<>(catService.getAllDiseaseRecordByCatId(id), HttpStatus.OK);
     }
 
     @GetMapping(value = "/Color")
-    public List<Cat> getAllCatByCatColor(@RequestParam String id){
-        return catService.getAllCatByCatColor(id);
+    public ResponseEntity<List<Cat>> getAllCatByCatColor(@RequestParam String id) {
+        return new ResponseEntity<>(catService.getAllCatByCatColor(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/GetCatList")
+    public ResponseEntity<List<Cat>> getCatList(){
+        return new ResponseEntity<>(catService.getCatList(), HttpStatus.OK);
     }
 }
