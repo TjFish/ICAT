@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +32,9 @@ public class ApplyToCatImageServiceImpl implements ApplyToCatImageService {
     @Autowired
     ApplyToCatImageRepository applyToCatImageRepository;
 
-    ImageService imageService = new ImageServiceImpl();
+    @Autowired
+    @Lazy
+    ImageService imageService;
 
     @Override
     @CachePut(key = "#adoption.applicationId")
