@@ -31,8 +31,7 @@ public class ApplyToCatImageServiceImpl implements ApplyToCatImageService {
     @Autowired
     ApplyToCatImageRepository applyToCatImageRepository;
 
-    @Autowired
-    ImageService imageService;
+    ImageService imageService = new ImageServiceImpl();
 
     @Override
     @CachePut(key = "#adoption.applicationId")
