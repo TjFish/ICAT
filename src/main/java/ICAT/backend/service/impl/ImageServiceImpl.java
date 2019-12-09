@@ -5,7 +5,6 @@ import ICAT.backend.dao.mapper.PostcardMapper;
 import ICAT.backend.pojo.*;
 import ICAT.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,8 +13,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Year;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,14 +33,17 @@ public class ImageServiceImpl implements ImageService {
     @Autowired
     CatImageServiceImpl catImageService;
 
-    @Autowired CatService catService;
+    @Autowired
+    CatService catService;
 
     @Autowired
     PostcardMapper postcardMapper;
 
-    @Autowired UserService userService;
+    @Autowired
+    UserService userService;
 
-    @Autowired AdminService adminService;
+    @Autowired
+    AdminService adminService;
 
     @Override
     public List<Image> getAllImage() {
@@ -72,7 +72,7 @@ public class ImageServiceImpl implements ImageService {
         try {
             String originFileName = file.getOriginalFilename();
             String suffix = originFileName.substring(originFileName.lastIndexOf("."));
-            Image newImage = uploadFile(req, file, "Apply",originFileName);
+            Image newImage = uploadFile(req, file, "Apply", originFileName);
             ApplyToCatImage newApply = new ApplyToCatImage();
             newApply.setApplicationTime(newImage.getPhotoTime());
             newApply.setImageUrl(newImage.getImageUrl());
@@ -80,16 +80,16 @@ public class ImageServiceImpl implements ImageService {
             newApply.setUserAccount(userAccount);
             newApply.setAuditStatus("未审核");
 
-            Integer applyId = applyToCatImageService.addApplyToCatImage(newApply);
+            Integer applyId = applyToCatImageService.add(newApply).getApplicationId();
             String fileName = "app" + applyId.toString() + suffix;
 
             newApply.setApplicationId(applyId);
-            newApply.setImageUrl("image/Apply/"+fileName);
-            applyToCatImageService.updateApplyToCatImage(newApply);
+            newApply.setImageUrl("image/Apply/" + fileName);
+            applyToCatImageService.update(applyId, newApply);
             newImage.setImageId(applyId.toString());
-            newImage.setImageUrl("image/Apply/"+fileName);
+            newImage.setImageUrl("image/Apply/" + fileName);
             return newImage;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -102,13 +102,13 @@ public class ImageServiceImpl implements ImageService {
             String suffix = originFileName.substring(originFileName.lastIndexOf("."));
             String imageID = sequenceService.getNextImageId();
             String fileName = imageID + suffix;
-            Image newImage = uploadFile(req, file, "Activity",fileName);
+            Image newImage = uploadFile(req, file, "Activity", fileName);
             imageMapper.addImage(newImage);
             Activity newActivity = activityServiceImpl.queryById(activityId);
             newActivity.setActivityCover(newImage.getImageId());
-            activityServiceImpl.update(activityId,newActivity);
+            activityServiceImpl.update(activityId, newActivity);
             return newImage;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -121,21 +121,20 @@ public class ImageServiceImpl implements ImageService {
             String suffix = originFileName.substring(originFileName.lastIndexOf("."));
             String imageID = sequenceService.getNextImageId();
             String fileName = imageID + suffix;
-            Image newImage = uploadFile(req, file, "catImage/"+catId,fileName);
+            Image newImage = uploadFile(req, file, "catImage/" + catId, fileName);
             imageMapper.addImage(newImage);
-            if(option==1){
-                Optional<Cat> newCat = catService.queryCatById(catId);
-                if(newCat.isPresent())
-                    newCat.get().setHeadPortrait(imageID);
-                catService.updateCat(newCat.get());
-            }else {
+            if (option == 1) {
+                Cat newCat = catService.queryById(catId);
+                newCat.setHeadPortrait(imageID);
+                catService.update(catId, newCat);
+            } else {
                 CatImage newCatImage = new CatImage();
                 newCatImage.setCatId(catId);
                 newCatImage.setImageId(imageID);
                 catImageService.add(newCatImage);
             }
             return newImage;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -148,14 +147,14 @@ public class ImageServiceImpl implements ImageService {
             String suffix = originFileName.substring(originFileName.lastIndexOf("."));
             String imageID = sequenceService.getNextImageId();
             String fileName = imageID + suffix;
-            Image newImage = uploadFile(req, file, "postCard/"+produceYear,fileName);
+            Image newImage = uploadFile(req, file, "postCard/" + produceYear, fileName);
             imageMapper.addImage(newImage);
             Postcard newPostcard = new Postcard();
             newPostcard.setProduceYear(produceYear);
             newPostcard.setImageId(imageID);
             postcardMapper.addPostcard(newPostcard);
             return newPostcard;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -168,13 +167,13 @@ public class ImageServiceImpl implements ImageService {
             String suffix = originFileName.substring(originFileName.lastIndexOf("."));
             String imageID = sequenceService.getNextImageId();
             String fileName = imageID + suffix;
-            Image newImage = uploadFile(req, file, "UserHead",fileName);
+            Image newImage = uploadFile(req, file, "UserHead", fileName);
             imageMapper.addImage(newImage);
             Optional<User> newUser = userService.getUserById(userId);
             newUser.get().setHeadPortrait(imageID);
             userService.updateUser(newUser.get());
             return newImage;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -187,33 +186,33 @@ public class ImageServiceImpl implements ImageService {
             String suffix = originFileName.substring(originFileName.lastIndexOf("."));
             String imageID = sequenceService.getNextImageId();
             String fileName = imageID + suffix;
-            Image newImage = uploadFile(req, file, "AdminHead",fileName);
+            Image newImage = uploadFile(req, file, "AdminHead", fileName);
             imageMapper.addImage(newImage);
             Optional<Admin> newAdmin = adminService.getAdminById(adminId);
             newAdmin.get().setHeadPortrait(imageID);
             adminService.updateAdmin(newAdmin.get());
             return newImage;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public Image uploadFile(HttpServletRequest req, MultipartFile file, String address, String fileName){
-        try{
-            String destName = req.getServletContext().getRealPath("")+"file"+ File.separator + "image" + File.separator + address + File.separator + fileName;
+    public Image uploadFile(HttpServletRequest req, MultipartFile file, String address, String fileName) {
+        try {
+            String destName = req.getServletContext().getRealPath("") + "file" + File.separator + "image" + File.separator + address + File.separator + fileName;
             File destFile = new File(destName);
             file.transferTo(destFile);
 
             Image newImage = new Image();
-            newImage.setImageId(fileName.substring(0,fileName.lastIndexOf(".")));
-            newImage.setImageUrl("image/"+address+"/"+fileName);
+            newImage.setImageId(fileName.substring(0, fileName.lastIndexOf(".")));
+            newImage.setImageUrl("image/" + address + "/" + fileName);
             newImage.setPhotoTime(new Timestamp(System.currentTimeMillis()));
             return newImage;
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }

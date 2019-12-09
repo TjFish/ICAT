@@ -3,10 +3,10 @@ package ICAT.backend.service;
 import ICAT.backend.pojo.Cat;
 import ICAT.backend.pojo.DiseaseRecord;
 import ICAT.backend.pojo.Image;
+import ICAT.common.service.CURDService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Shidan Cheng
@@ -15,23 +15,15 @@ import java.util.Optional;
 
 
 @Service
-public interface CatService {
-    public void addCat(Cat cat);
+public interface CatService extends CURDService<Cat,String> {
 
-    public void deleteCatById(String id);
-
-    public void updateCat(Cat cat);
-
-    public Optional<Cat> queryCatById(String id);
-
-    public List<Cat> queryAllCat();
-
-    public boolean existsById(String id);
+    public List<Cat> getCatList();
 
     public List<Image> getAllImageByCatId(String id);
 
     public List<DiseaseRecord> getAllDiseaseRecordByCatId(String id);
 
     public List<Cat> getAllCatByCatColor(String id);
+
 }
 

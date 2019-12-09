@@ -1,10 +1,9 @@
 package ICAT.backend.service;
 
 import ICAT.backend.pojo.CatColor;
+import ICAT.common.service.CURDService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
 
 /**
@@ -13,18 +12,7 @@ import java.util.Optional;
  */
 
 @Service
-public interface CatColorService {
-    public void addCatColor(CatColor catColor);
-
-    public void deleteCatColorById(String id);
-
-    public void updateCatColor(CatColor catColor);
-
-    public Optional<CatColor> queryCatColorById(String id);
-
-    public List<CatColor> queryAllCatColor();
-
-    public boolean existsById(String id);
+public interface CatColorService extends CURDService<CatColor, String> {
 }
 
 

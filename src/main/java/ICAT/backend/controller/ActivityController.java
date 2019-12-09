@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @date: 16:12 2019/11/30
  */
 @RestController
-@RequestMapping(value = "/api/Activitys", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/api/Activities", produces = "application/json;charset=utf-8")
 public class ActivityController extends CURDController<Activity,String, ActivityService> {
 }

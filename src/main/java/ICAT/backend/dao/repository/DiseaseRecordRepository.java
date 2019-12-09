@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface DiseaseRecordRepository extends JpaRepository<DiseaseRecord,String> {
 
-    @Query(nativeQuery = true, value = "select * from diseaseRecord t where t.catId = :id ")
+    @Query(nativeQuery = true, value = "select * from diseaseRecord t where t.catId = :id order by startTime")
     public List<DiseaseRecord> getAllDiseaseRecordByCatId(String id);
 }

@@ -1,23 +1,25 @@
 package ICAT.backend.service.impl;
 
+
+import ICAT.backend.dao.repository.CatRepository;
+
+import ICAT.backend.dao.repository.ImageRepository;
 import ICAT.backend.pojo.ApplyToCatImage;
 import ICAT.backend.dao.repository.ApplyToCatImageRepository;
+import ICAT.backend.pojo.Cat;
 import ICAT.backend.pojo.Image;
 import ICAT.backend.service.ApplyToCatImageService;
-import ICAT.backend.service.ImageService;
-import ICAT.backend.utils.ImageBase64Util;
+import ICAT.backend.utils.EntityUtil;
+import ICAT.common.service.Impl.CURDServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.io.IOException;
+import java.io.File;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,70 +28,69 @@ import java.util.Optional;
  * @date 14:55 2019/11/30
  */
 @Service
-@Transactional
 @CacheConfig(cacheNames = "ApplyToCatImage")
-public class ApplyToCatImageServiceImpl implements ApplyToCatImageService {
+public class ApplyToCatImageServiceImpl extends CURDServiceImpl<ApplyToCatImage, Integer, ApplyToCatImageRepository> implements ApplyToCatImageService {
     @Autowired
     ApplyToCatImageRepository applyToCatImageRepository;
-
     @Autowired
-    @Lazy
-    ImageService imageService;
+    CatRepository catRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
     @Override
-    @CachePut(key = "#adoption.applicationId")
-    public Integer addApplyToCatImage(ApplyToCatImage adoption) {
-        ApplyToCatImage newApply = applyToCatImageRepository.saveAndFlush(adoption);
-        return newApply.getApplicationId();
+    public List<ApplyToCatImage> queryAll() {
+        return EntityUtil.castEntity(applyToCatImageRepository.findAllWithAppendInfo(), ApplyToCatImage.class, new ApplyToCatImage());
     }
 
     @Override
-    @CacheEvict(key = "#p0")
-    public void deleteApplyToCatImageById(String id) {
-        applyToCatImageRepository.deleteById(id);
+    @Transactional(rollbackOn = Exception.class)
+    public ResponseEntity auditPass(Integer id) {
+        ApplyToCatImage apply = null;
+        Cat cat = null;
+        Optional<ApplyToCatImage> applyCheck = applyToCatImageRepository.findById(id);
+        if (applyCheck.isPresent()) {
+            apply = applyCheck.get();
+        } else {
+            return new ResponseEntity("未找到指定ID", HttpStatus.NOT_FOUND);
+        }
+        apply.setAuditStatus("审核通过");
+        if (!catRepository.findById(apply.getCatId()).isPresent()) {
+            return new ResponseEntity("无指定猫咪", HttpStatus.NOT_FOUND);
+        }
 
-    }
+        Image image = new Image();
+        image.setImageId("default");
+        image.setImageUrl("default");
+        image.setPhotoTime(new Timestamp(System.currentTimeMillis()));
+        image = imageRepository.saveAndFlush(image);
 
-    @Override
-    @Cacheable(key = "#adoption.applicationId")
-    public void updateApplyToCatImage(ApplyToCatImage adoption) {
-        applyToCatImageRepository.saveAndFlush(adoption);
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public Optional<ApplyToCatImage> queryApplyToCatImageById(String id) {
-        return applyToCatImageRepository.findById(id);
-    }
-
-    @Override
-    public List<ApplyToCatImage> queryAllApplyToCatImage() {
-        return applyToCatImageRepository.findAll();
-    }
-
-    @Override
-    public boolean existsById(String id) {
-        return applyToCatImageRepository.existsById(id);
-    }
-
-    @Override
-    public Image auditPassApplyToCatImage(HttpServletRequest request, String id) {
-        Optional<ApplyToCatImage> check = applyToCatImageRepository.findById(id);
-        if (check.isPresent()) {
-            try {
-                ApplyToCatImage application = check.get();
-                String image = ImageBase64Util.imageToBase64(application.getImageUrl());
-                MultipartFile file = ImageBase64Util.base64ToMultipart(image);
-                Image result = imageService.uploadCatImage(request, file, application.getCatId(), 0);
-                result.setPhotoTime(application.getApplicationTime());
-                imageService.updateImage(result,result.getImageId());
-                applyToCatImageRepository.deleteById(id);
-                return result;
-            } catch (IOException e) {
-                return null;
+        String originPath = "../file/" + apply.getImageUrl();
+        String catId = apply.getCatId();
+        String category = "catImage/" + catId;
+        String imageId = image.getImageId();
+        String fileDir = "../file/image/" + category;
+        File directory = new File(fileDir);
+        if (!directory.exists() && !directory.isDirectory()) {
+            if (!directory.mkdir()){
+                return new ResponseEntity("服务器内部错误", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return null;
+        String extension = originPath.substring(originPath.lastIndexOf('.') + 1);
+        String fileName = imageId + extension.toLowerCase();
+        String targetPath = fileDir + "/" + fileName;
+
+        File origin = new File(originPath);
+        File target = new File(targetPath);
+        try {
+            origin.renameTo(target);
+            String imageUrl = "image/" + category + "/" + fileName;
+            image.setImageUrl(imageUrl);
+            imageRepository.saveAndFlush(image);
+            applyToCatImageRepository.delete(apply);
+        } catch (Exception e) {
+            return new ResponseEntity("服务器内部错误", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity(image, HttpStatus.OK);
     }
 }
 

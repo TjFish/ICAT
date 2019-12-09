@@ -1,72 +1,46 @@
 package ICAT.backend.service.impl;
 
 import ICAT.backend.dao.repository.DiseaseRecordRepository;
-import ICAT.backend.pojo.Cat;
-import ICAT.backend.pojo.DiseaseRecord;
-import ICAT.backend.pojo.Image;
+import ICAT.backend.pojo.*;
 import ICAT.backend.dao.repository.CatRepository;
 import ICAT.backend.dao.repository.ImageRepository;
 import ICAT.backend.service.CatService;
+import ICAT.backend.service.SequenceService;
+import ICAT.backend.utils.EntityUtil;
+import ICAT.common.service.Impl.CURDServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Shidan Cheng
  * @date 11:59 2019/11/30
  */
 @Service
-@Transactional
-@CacheConfig(cacheNames = "Cat")
-public class CatServiceImpl implements CatService {
+public class CatServiceImpl extends CURDServiceImpl<Cat, String, CatRepository> implements CatService {
+
     @Autowired
-    private CatRepository catRepository;
+    private SequenceService sequenceService;
 
     @Autowired
     private ImageRepository imageRepository;
 
     @Autowired
+    private CatRepository catRepository;
+
+    @Autowired
     private DiseaseRecordRepository diseaseRecordRepository;
 
     @Override
-    @CachePut(key = "#cat.catId")
-    public void addCat(Cat cat) {
-        catRepository.saveAndFlush(cat);
+    public Cat add(Cat cat) {
+        cat.setCatId(sequenceService.getNextCatId());
+        return super.add(cat);
     }
 
     @Override
-    @CacheEvict(key = "#p0")
-    public void deleteCatById(String id) {
-        catRepository.deleteById(id);
-    }
-
-    @Override
-    @CachePut(key = "#cat.catId")
-    public void updateCat(Cat cat) {
-        catRepository.saveAndFlush(cat);
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public Optional<Cat> queryCatById(String id) {
-        return catRepository.findById(id);
-    }
-
-    @Override
-    public List<Cat> queryAllCat() {
-        return catRepository.findAll();
-    }
-
-    @Override
-    public boolean existsById(String id) {
-        return catRepository.existsById(id);
+    public List<Cat> getCatList() {
+        return EntityUtil.castEntity(catRepository.getCatList(), Cat.class, new Cat());
     }
 
     @Override

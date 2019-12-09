@@ -1,19 +1,19 @@
 package ICAT.backend.service.impl;
 
 import ICAT.backend.dao.repository.AdoptionRepository;
+import ICAT.backend.dao.repository.CatRepository;
 import ICAT.backend.pojo.Adoption;
 import ICAT.backend.pojo.ApplyToAdopt;
 import ICAT.backend.dao.repository.ApplyToAdoptRepository;
+import ICAT.backend.pojo.Cat;
 import ICAT.backend.service.ApplyToAdoptService;
+import ICAT.common.service.Impl.CURDServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,62 +21,37 @@ import java.util.Optional;
  * @date 14:37 2019/11/30
  */
 @Service
-@Transactional
-@CacheConfig(cacheNames = "ApplyToAdopt")
-public class ApplyToAdoptServiceImpl implements ApplyToAdoptService {
+public class ApplyToAdoptServiceImpl extends CURDServiceImpl<ApplyToAdopt, Integer, ApplyToAdoptRepository> implements ApplyToAdoptService {
     @Autowired
     ApplyToAdoptRepository applyToAdoptRepository;
     @Autowired
+    CatRepository catRepository;
+    @Autowired
     AdoptionRepository adoptionRepository;
 
-
     @Override
-    @CachePut(key = "#adoption.applicationId")
-    public void addApplyToAdopt(ApplyToAdopt adoption) {
-        applyToAdoptRepository.saveAndFlush(adoption);
-
-    }
-
-    @Override
-    @CacheEvict(key = "#p0")
-    public void deleteApplyToAdoptById(String id) {
-        applyToAdoptRepository.deleteById(id);
-
-    }
-
-    @Override
-    @Cacheable(key = "#adoption.applicationId")
-    public void updateApplyToAdopt(ApplyToAdopt adoption) {
-        applyToAdoptRepository.saveAndFlush(adoption);
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public Optional<ApplyToAdopt> queryApplyToAdoptById(String id) {
-        return applyToAdoptRepository.findById(id);
-    }
-
-    @Override
-    public List<ApplyToAdopt> queryAllApplyToAdopt() {
-        return applyToAdoptRepository.findAll();
-    }
-
-    @Override
-    public boolean existsById(String id) {
-        return applyToAdoptRepository.existsById(id);
-    }
-
-    @Override
-    public boolean auditPassApplyToAdopt(String id) {
-        Optional<ApplyToAdopt> check = queryApplyToAdoptById(id);
-        if (check.isPresent()) {
-            ApplyToAdopt application = check.get();
-            Adoption adoption = new Adoption(application);
-            adoptionRepository.saveAndFlush(adoption);
-            applyToAdoptRepository.deleteById(id);
-            return true;
+    @Transactional
+    public ResponseEntity auditPass(Integer id) {
+        ApplyToAdopt apply = null;
+        Cat cat = null;
+        Optional<ApplyToAdopt> applyCheck = applyToAdoptRepository.findById(id);
+        if (applyCheck.isPresent()) {
+            apply = applyCheck.get();
         } else {
-            return false;
+            return new ResponseEntity("无指定ID", HttpStatus.NOT_FOUND);
         }
+        Optional<Cat> catCheck = catRepository.findById(apply.getCatId());
+        if (catCheck.isPresent()) {
+            cat = catCheck.get();
+        } else {
+            return new ResponseEntity("无指定猫咪", HttpStatus.NOT_FOUND);
+        }
+        apply.setAuditStatus("审核通过");
+        cat.setIsAdopt(true);
+        applyToAdoptRepository.saveAndFlush(apply);
+        catRepository.saveAndFlush(cat);
+        adoptionRepository.saveAndFlush(new Adoption(apply));
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

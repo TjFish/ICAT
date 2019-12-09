@@ -2,11 +2,8 @@ package ICAT.backend.controller;
 
 import ICAT.backend.pojo.CatColor;
 import ICAT.backend.service.CatColorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import ICAT.common.controller.CURDController;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Shidan Cheng
@@ -14,34 +11,5 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping(value = "/api/CatColors", produces = "application/json;charset=utf-8")
-public class CatColorController {
-    @Autowired
-    CatColorService catColorService;
-
-    @GetMapping(value = "/")
-    @ResponseBody
-    public List<CatColor> getAllCatColor() {
-        return catColorService.queryAllCatColor();
-    }
-
-    @GetMapping(value = "/{colorId}")
-    @ResponseBody
-    public Optional<CatColor> getCatColorById(@PathVariable("colorId") String id) {
-        return catColorService.queryCatColorById(id);
-    }
-
-    @PostMapping(value = "/")
-    public void addCatColor(@RequestBody CatColor catColor) {
-        catColorService.addCatColor(catColor);
-    }
-
-    @DeleteMapping(value = "/{colorId}")
-    public void deleteCatColor(@PathVariable("colorId") String id) {
-        catColorService.deleteCatColorById(id);
-    }
-
-    @PutMapping(value = "/")
-    public void putCatColor(CatColor catColor) {
-        catColorService.updateCatColor(catColor);
-    }
+public class CatColorController  extends CURDController<CatColor, String, CatColorService> {
 }
