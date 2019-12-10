@@ -38,7 +38,7 @@ public class CURDController<E, IDTYPE, S extends CURDService<E,IDTYPE>> {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable("id") IDTYPE id) {
         s.deleteById(id);
-        return new ResponseEntity<>("删除成功", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("删除成功", HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}")

@@ -15,6 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cat")
+
 public class Cat {
     @Id
     @Column(name = "CatID")
