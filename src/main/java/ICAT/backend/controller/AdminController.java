@@ -25,7 +25,7 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     @RequiresAuthentication
     @RequiresRoles("admin0")
     public List<AdminWithoutPassword> getAllAdmin() {
@@ -42,7 +42,7 @@ public class AdminController {
         return adminService.getPassword(id);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     @RequiresAuthentication
     @RequiresRoles("admin0")
     public AdminWithoutPassword addAdmin(@RequestBody Admin admin) {
@@ -78,10 +78,10 @@ public class AdminController {
         return getAdminWithoutPassword(admin);
     }
 
-    @PutMapping(value = "/")
+    @PutMapping(value = "/{adminId}")
     @RequiresAuthentication
     @RequiresRoles("admin0")
-    public void updateUser(Admin user) {
+    public void updateUser(@RequestBody Admin user) {
         adminService.updateAdmin(user);
     }
 
