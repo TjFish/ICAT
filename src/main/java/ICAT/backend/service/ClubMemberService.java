@@ -1,26 +1,14 @@
 package ICAT.backend.service;
 
 import ICAT.backend.pojo.ClubMember;
+import ICAT.common.service.CURDService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author: OY
  * @date: 16:04 2019/11/27
  */
 @Service
-public interface ClubMemberService {
-    public void addClubMember(ClubMember clubMember);
+public interface ClubMemberService extends CURDService<ClubMember,String> {
 
-    public void deleteClubMemberById(String id);
-
-    public void updateClubMember(ClubMember clubMember);
-
-    public Optional<ClubMember> queryClubMemberById(String id);
-
-    public List<ClubMember> queryAllClubMember();
-
-    boolean existsById(String id);
 }

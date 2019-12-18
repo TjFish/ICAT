@@ -16,7 +16,7 @@ public class PostcardController {
     @Autowired
     PostcardService postcardService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public List<Postcard> getAllPostcard(){
         return postcardService.getAllPostcards();
     }
@@ -26,7 +26,7 @@ public class PostcardController {
         return postcardService.getPostcardById(id);
     }
 
-    @PutMapping(value = "/")
+    @PutMapping(value = "")
     public int updatePostcard(@RequestBody Postcard postcard){
         return postcardService.updatePostcard(postcard);
     }

@@ -18,7 +18,7 @@ import javax.persistence.*;
 
 public class Cat {
     @Id
-    @Column(name = "CatID")
+    @Column(name = "catID")
     private String catId;
     private String catName;
     private String catColor;

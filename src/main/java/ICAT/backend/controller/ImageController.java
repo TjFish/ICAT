@@ -18,7 +18,7 @@ public class ImageController {
     @Autowired
     ImageService imageService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     @ResponseBody
     public List<Image> getAllImages(){
         return imageService.getAllImage();

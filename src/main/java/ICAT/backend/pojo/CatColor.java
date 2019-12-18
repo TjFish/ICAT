@@ -17,7 +17,8 @@ import javax.persistence.*;
 @Table(name = "catColor")
 public class CatColor {
     @Id
-    private String colorID;
+    @Column(name = "colorID")
+    private String colorId;
     private String colorName;
     private String colorDescription;
 }

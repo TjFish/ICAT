@@ -2,6 +2,7 @@ package ICAT.backend.controller;
 
 import ICAT.backend.pojo.ClubMember;
 import ICAT.backend.service.ClubMemberService;
+import ICAT.common.controller.CURDController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,36 +15,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping(value = "/api/ClubMembers", produces = "application/json;charset=utf-8")
-public class ClubMemberController {
-    @Autowired
-    ClubMemberService clubMemberService;
+public class ClubMemberController extends CURDController<ClubMember,String,ClubMemberService> {
 
-    @GetMapping(value = "/")
-    @ResponseBody
-    public List<ClubMember> getAllClubMember() {
-        return clubMemberService.queryAllClubMember();
-    }
-
-    @GetMapping(value = "/{studentId}")
-    @ResponseBody
-    public Optional<ClubMember> getClubMemberById(@PathVariable("studentId") String Id) {
-        return clubMemberService.queryClubMemberById(Id);
-    }
-
-    @PostMapping(value = "/")
-    public void addClubMember(@RequestBody ClubMember clubMember) {
-        clubMemberService.addClubMember(clubMember);
-    }
-
-
-    @DeleteMapping(value = "/{studentId}")
-    public void deleteClubMember(@PathVariable("studentId") String id) {
-        clubMemberService.deleteClubMemberById(id);
-    }
-
-    @PutMapping(value = "/")
-    public void putClubMember(@RequestBody ClubMember clubMember)
-    {
-        clubMemberService.updateClubMember(clubMember);
-    }
 }
