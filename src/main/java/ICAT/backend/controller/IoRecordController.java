@@ -15,7 +15,7 @@ public class IoRecordController {
     @Autowired
     IoRecordsService ioRecordsService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     @ResponseBody
     public List<IoRecord> getAllIoRecords(){
         return ioRecordsService.queryAll();
@@ -27,13 +27,13 @@ public class IoRecordController {
         return ioRecordsService.queryById(id);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     @ResponseBody
     public IoRecord addIoRecord(@RequestBody IoRecord ioRecord){
         return ioRecordsService.add(ioRecord);
     }
 
-    @PutMapping(value = "/")
+    @PutMapping(value = "")
     public ResponseEntity updateIoRecord(@RequestBody IoRecord ioRecord){
         ioRecordsService.update(ioRecord.getIoId(), ioRecord);
         return new ResponseEntity<>("删除成功", HttpStatus.CREATED);

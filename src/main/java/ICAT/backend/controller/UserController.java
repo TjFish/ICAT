@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     @RequiresAuthentication
     @RequiresRoles("admin")
     public List<UserWithoutPassword> getAllUser() {
@@ -52,7 +52,7 @@ public class UserController {
         return getUserWithoutPassword(user);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public UserWithoutPassword addUser(@RequestBody User user) {
         userService.addUser(user);
         User newUser = userService.getUserById(user.getUserAccount()).orElse(null);
@@ -86,7 +86,7 @@ public class UserController {
         return getUserWithoutPassword(user);
     }
 
-    @PutMapping(value = "/")
+    @PutMapping(value = "")
     @RequiresAuthentication
     public void updateUser(User user) {
         userService.updateUser(user);
