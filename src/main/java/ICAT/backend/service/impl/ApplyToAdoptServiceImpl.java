@@ -14,6 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -53,5 +57,11 @@ public class ApplyToAdoptServiceImpl extends CURDServiceImpl<ApplyToAdopt, Integ
         adoptionRepository.saveAndFlush(new Adoption(apply));
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Override
+    public ApplyToAdopt add(ApplyToAdopt applyToAdopt) {
+        applyToAdopt.setApplicationTime(Timestamp.valueOf(LocalDateTime.now()));
+        return super.add(applyToAdopt);
     }
 }

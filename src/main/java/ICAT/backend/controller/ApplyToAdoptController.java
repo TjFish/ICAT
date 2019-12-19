@@ -14,7 +14,7 @@ import java.io.IOException;
  * @date 14:33 2019/11/30
  */
 @RestController
-@RequestMapping(value = "ApplyToAdopts", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/api/ApplyToAdopts", produces = "application/json;charset=utf-8")
 public class ApplyToAdoptController extends CURDController<ApplyToAdopt, Integer, ApplyToAdoptService> {
     @Autowired
     ApplyToAdoptService applyToAdoptService;

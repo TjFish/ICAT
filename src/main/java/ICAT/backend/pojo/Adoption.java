@@ -21,11 +21,14 @@ public class Adoption {
     @Id
     @Column(name = "catID")
     private String catId;
+    private String userAccount;
     private Timestamp adoptTime;
     private String userName;
     private String userPhone;
     private String userAddress;
     private String userGender;
+    @Transient
+    private String catName;
 
     public Adoption(ApplyToAdopt applyToAdopt) {
         this.catId = applyToAdopt.getCatId();
