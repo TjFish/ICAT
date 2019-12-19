@@ -7,7 +7,7 @@
     </resultMap>
 
     <select id="getAllPostcards" resultType="ICAT.backend.pojo.Postcard">
-        select postcard.imageID, postcard.produceYear, postcard.producer, postcard.remark,image.imageURL
+        select postcard.imageID, postcard.produceYear, postcard.producer, postcard.remark,image.imageURL as imageUrl
         from postcard natural join image
     </select>
 

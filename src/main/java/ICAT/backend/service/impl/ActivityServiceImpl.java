@@ -1,12 +1,16 @@
 package ICAT.backend.service.impl;
 
 import ICAT.backend.pojo.Activity;
+import ICAT.backend.pojo.Image;
 import ICAT.backend.service.ActivityService;
 import ICAT.backend.dao.repository.ActivityRepository;
+import ICAT.backend.service.ImageService;
 import ICAT.backend.service.SequenceService;
 import ICAT.common.service.Impl.CURDServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author: OY

@@ -1,6 +1,8 @@
 package ICAT.backend.controller;
 
+import ICAT.backend.pojo.Image;
 import ICAT.backend.pojo.User;
+import ICAT.backend.service.ImageService;
 import ICAT.backend.service.UserService;
 import ICAT.backend.utils.JWTUtil;
 import ICAT.common.exception.UnauthorizedException;
@@ -21,6 +23,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    ImageService imageService;
 
     @GetMapping(value = "")
     @RequiresAuthentication
@@ -101,6 +105,8 @@ public class UserController {
         public String userAccount;
         public String nickname;
         public String introduction;
+        public String headPortrait;
+        public String headImageUrl;
     }
 
     /**
@@ -114,6 +120,13 @@ public class UserController {
         userWithoutPassword.userAccount = user.getUserAccount();
         userWithoutPassword.nickname = user.getNickname();
         userWithoutPassword.introduction = user.getIntroduction();
+        userWithoutPassword.headPortrait = user.getHeadPortrait();
+        if(user.getHeadPortrait()!=null) {
+            Image head=imageService.getImageById(user.getHeadPortrait());
+            if(head!=null) {
+                userWithoutPassword.headImageUrl = head.getImageUrl();
+            }
+        }
         return userWithoutPassword;
     }
 

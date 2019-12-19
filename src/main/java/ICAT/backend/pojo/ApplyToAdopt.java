@@ -32,4 +32,7 @@ public class ApplyToAdopt {
     private String userPhone;
     private String userAddress;
     private String userGender;
+
+    @Transient
+    private String catName;
 }

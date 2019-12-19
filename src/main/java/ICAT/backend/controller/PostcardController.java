@@ -2,12 +2,10 @@ package ICAT.backend.controller;
 
 import ICAT.backend.pojo.Postcard;
 import ICAT.backend.service.PostcardService;
-import ICAT.backend.service.SequenceService;
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Year;
+
 import java.util.List;
 
 @RestController
