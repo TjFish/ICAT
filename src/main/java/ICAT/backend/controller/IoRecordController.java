@@ -2,6 +2,8 @@ package ICAT.backend.controller;
 
 import ICAT.backend.pojo.IoRecord;
 import ICAT.backend.service.IoRecordsService;
+import ICAT.common.controller.CURDController;
+import ICAT.common.service.Impl.CURDServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,37 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/IoRecords", produces = "application/json;charset=utf-8")
-public class IoRecordController {
-    @Autowired
-    IoRecordsService ioRecordsService;
+public class IoRecordController extends CURDController<IoRecord,String,IoRecordsService> {
 
-    @GetMapping(value = "")
-    @ResponseBody
-    public List<IoRecord> getAllIoRecords(){
-        return ioRecordsService.queryAll();
-    }
-
-    @GetMapping(value = "/{id}")
-    @ResponseBody
-    public IoRecord getIoRecordById(@PathVariable("id") String id){
-        return ioRecordsService.queryById(id);
-    }
-
-    @PostMapping(value = "")
-    @ResponseBody
-    public IoRecord addIoRecord(@RequestBody IoRecord ioRecord){
-        return ioRecordsService.add(ioRecord);
-    }
-
-    @PutMapping(value = "")
-    public ResponseEntity updateIoRecord(@RequestBody IoRecord ioRecord){
-        ioRecordsService.update(ioRecord.getIoId(), ioRecord);
-        return new ResponseEntity<>("删除成功", HttpStatus.CREATED);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteIoRecord(@PathVariable("id")String id){
-        ioRecordsService.deleteById(id);
-        return new ResponseEntity<>("删除成功",HttpStatus.NO_CONTENT);
-    }
 }

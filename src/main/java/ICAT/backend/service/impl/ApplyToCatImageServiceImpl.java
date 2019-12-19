@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,12 @@ public class ApplyToCatImageServiceImpl extends CURDServiceImpl<ApplyToCatImage,
     @Override
     public List<ApplyToCatImage> queryAll() {
         return EntityUtil.castEntity(applyToCatImageRepository.findAllWithAppendInfo(), ApplyToCatImage.class, new ApplyToCatImage());
+    }
+
+    @Override
+    public ApplyToCatImage add(ApplyToCatImage applyToCatImage) {
+        applyToCatImage.setApplicationTime(Timestamp.valueOf(LocalDateTime.now()));
+        return super.add(applyToCatImage);
     }
 
     @Override
