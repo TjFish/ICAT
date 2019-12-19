@@ -18,6 +18,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -57,6 +58,18 @@ public class ApplyToAdoptServiceImpl extends CURDServiceImpl<ApplyToAdopt, Integ
         adoptionRepository.saveAndFlush(new Adoption(apply));
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Override
+    public List<ApplyToAdopt> queryAll(){
+        List<ApplyToAdopt> applyToAdopts=super.queryAll();
+        for (ApplyToAdopt a:applyToAdopts) {
+            if(a.getCatId()!=null) {
+                 Optional<Cat> cat=catRepository.findById(a.getCatId());
+                cat.ifPresent(value -> a.setCatName(value.getCatName()));
+            }
+        }
+        return applyToAdopts;
     }
 
     @Override

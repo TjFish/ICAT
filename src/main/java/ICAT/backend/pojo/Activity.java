@@ -30,7 +30,11 @@ public class Activity {
     private String activityTitle;
     private String activityDescription;
     private Timestamp publishtime;
+    private String activityCover;
 
     @Transient
-    private String activityCover;
+    private String coverImageUrl;
+    @Transient
+    private String adminNikename;
+
 }
