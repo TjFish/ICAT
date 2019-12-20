@@ -200,7 +200,7 @@ public class ImageServiceImpl implements ImageService {
 
     public Image uploadFile(HttpServletRequest req, MultipartFile file, String address, String fileName) {
         try {
-            String destName = req.getServletContext().getRealPath("") + "file" + File.separator + "image" + File.separator + address + File.separator + fileName;
+            String destName = System.getProperty("user.dir") + File.separator + "file" + File.separator + "image" + File.separator + address + File.separator + fileName;
             File destFile = new File(destName);
             file.transferTo(destFile);
 

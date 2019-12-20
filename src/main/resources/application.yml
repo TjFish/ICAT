@@ -4,6 +4,7 @@ server:
 spring:
   datasource:
 
+
     hikari:
       auto-commit: false
   http:
