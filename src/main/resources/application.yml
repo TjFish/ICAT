@@ -3,10 +3,11 @@ server:
 
 spring:
   datasource:
-    username: ICAT
-    password: ICAT
-    url: jdbc:mysql://122.152.202.227:3306/catManagement?useUnicode=true&characterEncoding=UTF-8
+    username: mysql
+    password: mysql1234
+    url: jdbc:mysql://121.199.70.19:3306/catManagement?useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
+
     hikari:
       auto-commit: false
   http:

@@ -92,7 +92,7 @@ public class AdminController {
     public static class AdminWithoutPassword {
         AdminWithoutPassword() {}
         private String adminId;
-        private BigInteger role;
+        private Integer role;
         private String nikename;
     }
 

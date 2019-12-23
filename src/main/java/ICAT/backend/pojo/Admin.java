@@ -12,7 +12,7 @@ import java.math.BigInteger;
 public class Admin {
     private String adminId;
     private String password;
-    private BigInteger role;
+    private Integer role;
     private String nikename;
     private String headPortrait;
 
@@ -48,11 +48,11 @@ public class Admin {
 
     @Basic
     @Column(name = "role")
-    public BigInteger getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(BigInteger role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
