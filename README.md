@@ -5,7 +5,8 @@
 
 后台管理预览地址：<http://122.152.202.227:4040>
 
-此仓库为Java SpringBoot实现的完整后端，
+此仓库为Java SpringBoot实现的完整后端
+
 另有C# .Net Core 实现的完整后端，参见<https://github.com/TjFish/CatManageBackend>
 
 ## 进度
