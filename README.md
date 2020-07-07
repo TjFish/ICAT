@@ -1,11 +1,12 @@
 # ICAT
 ![](https://img.shields.io/github/last-commit/Tjfish/ICAT)
 
-前台预览地址：<http://47.102.116.29:2020/>
+前台预览地址：<http://122.152.202.227:2020/#>
 
-后台管理预览地址：<http://47.102.116.29:4040/>
+后台管理预览地址：<http://122.152.202.227:4040>
 
-原 Api swagger文档：<http://47.102.116.29/index.html> （参照这个实现api，完成后端功能）
+此仓库为Java SpringBoot实现的完整后端，
+另有C# .Net Core 实现的完整后端，参见<https://github.com/TjFish/CatManageBackend>
 
 ## 进度
 
@@ -15,7 +16,7 @@
 - [x] JPA
 - [x] Shiro
 - [x] Mysql
-- [ ] Vue
+- [x] Vue
 
 
 ## 目录结构
